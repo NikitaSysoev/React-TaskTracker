@@ -1,26 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Container } from 'react-bootstrap';
+import { Route, HashRouter as Router } from 'react-router-dom';
+
 import './App.css';
+import Header from './components/header';
+const Home = React.lazy(() => import('./screens/Home'));
+const DnD = React.lazy(() => import('./screens/DnD'));
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <Container>
+          <Header />
+          <React.Suspense fallback={<div> Loading....</div>}>
+            <Route exact path="/" render={props => <Home {...props} />} />
+            <Route exact path="/dnd" render={props => <DnD {...props} />} />
+          </React.Suspense>
+        </Container>
+      </Router>
+    );
+  }
 }
-
-export default App;

@@ -1,6 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import './css/index.css';
+import './css/micalendar.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
