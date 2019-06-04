@@ -1,15 +1,19 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faStroopwafel } from '@fortawesome/free-solid-svg-icons';
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
+
+import TaskList from '../components/taskList';
+import TaskForm from '../components/form';
 
 const Home = () => {
     return (
         <Row>
             <Col>
-                <FontAwesomeIcon icon={faUser} />
+                <TaskForm />
             </Col>
             <Col>
+                <TaskList />
                 <FontAwesomeIcon icon={faStroopwafel} />
             </Col>
         </Row>
