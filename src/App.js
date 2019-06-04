@@ -2,7 +2,6 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Route, HashRouter as Router } from 'react-router-dom';
 
-import './App.css';
 import Header from './components/header';
 const Home = React.lazy(() => import('./screens/Home'));
 const DnD = React.lazy(() => import('./screens/DnD'));

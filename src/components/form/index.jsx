@@ -6,6 +6,7 @@ export default class TaskForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            taskid: null,
             taskname: '',
             taskdesciption: '',
             date: null,
@@ -25,7 +26,8 @@ export default class TaskForm extends React.Component {
         this.setState({ ...this.initialState })
     }
 
-    handleAddTask = () => {
+    handleAddTask = (e) => {
+        e.preventDefault();
         const { taskName, taskdesciption, date, urgent, status } = this.state;
         if (taskName && date !== null) {
             console.log(this.state)
@@ -79,8 +81,9 @@ export default class TaskForm extends React.Component {
                                 placeholder="Date"
                             />
                         </div>
-                        <small className="form-text text-muted"
-                        >Это поле обязательное для заполнения</small>
+                        <small className="form-text text-muted">
+                            Это поле обязательное для заполнения
+                        </small>
                     </div>
 
                     <div className="form-group form-check">
@@ -92,7 +95,7 @@ export default class TaskForm extends React.Component {
                             className="form-check-input"
                         />
                         <label className="form-check-label" >
-                            <FontAwesomeIcon icon={faExclamationTriangle} />Urgent
+                            <FontAwesomeIcon icon={faExclamationTriangle} /> Urgent
                         </label>
                     </div>
 
