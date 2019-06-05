@@ -6,7 +6,7 @@ import { faEdit, faTimes, faStar } from '@fortawesome/free-solid-svg-icons';
 const Task = ({ openModal, taskname, taskdesciption, date, urgent, status }) => {
     return (
         <li class="list-group-item">
-            <a onClick={openModal} href="#">{taskname}</a>
+            <p onClick={openModal}>{taskname}</p>
             <br />
             <span class="text-muted">
                 <small>{date}</small>
@@ -26,3 +26,13 @@ const Task = ({ openModal, taskname, taskdesciption, date, urgent, status }) => 
 }
 
 export default React.memo(Task);
+
+Task.propTypes = {
+    openModal: PropTypes.func.isRequired,
+    taskname: PropTypes.string.isRequired,
+    taskdesciption: PropTypes.string,
+    date: PropTypes.number.isRequired,
+    urgent: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
+    taskid: PropTypes.string.isRequired
+}

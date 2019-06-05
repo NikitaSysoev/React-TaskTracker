@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import classNames from 'classnames';
 
 export default class TaskForm extends React.Component {
     constructor(props) {
@@ -11,7 +12,9 @@ export default class TaskForm extends React.Component {
             taskdesciption: '',
             date: null,
             urgent: false,
-            status: 'todo'
+            status: 'todo',
+            tasknameValid: true,
+            dateValid: true
         }
         this.initialState = this.state;
     }
@@ -19,23 +22,32 @@ export default class TaskForm extends React.Component {
     handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         const result = type === 'checkbox' ? checked : value;
-        this.setState({ [name]: result })
+        this.setState({ [name]: result });
     }
 
     handleClearForm = () => {
-        this.setState({ ...this.initialState })
+        this.setState({ ...this.initialState });
     }
 
     handleAddTask = (e) => {
         e.preventDefault();
-        const { taskName, taskdesciption, date, urgent, status } = this.state;
-        if (taskName && date !== null) {
-            console.log(this.state)
+        const { taskname, taskdesciption, date, urgent, status } = this.state;
+        if (!taskname) this.setState({ tasknameValid: false });
+        if (taskname) this.setState({ tasknameValid: true });
+        if (!date) this.setState({ dateValid: false });
+        if (date) this.setState({ dateValid: true });
+        if (taskname && date) {
+            console.log(taskname);
+            console.log(taskdesciption);
+            console.log(date);
+            console.log(urgent);
+            console.log(status);
         }
-
     }
 
     render() {
+        const taskNameClass = classNames('form-control', { 'is-invalid': !this.state.tasknameValid });
+        const dateClass = classNames('form-control', { 'is-invalid': !this.state.dateValid })
         return (
             <div className="card" style={{ marginTop: '20px' }}>
                 <div className="card-body">
@@ -46,7 +58,7 @@ export default class TaskForm extends React.Component {
                             name="taskname"
                             onChange={this.handleChange}
                             value={this.state.taskname}
-                            className="form-control"
+                            className={taskNameClass}
                             placeholder="Enter task name" />
                         <small className="form-text text-muted">
                             Это поле обязательное для заполнения
@@ -77,7 +89,7 @@ export default class TaskForm extends React.Component {
                             <input
                                 readOnly
                                 type="text"
-                                className="form-control"
+                                className={dateClass}
                                 placeholder="Date"
                             />
                         </div>
