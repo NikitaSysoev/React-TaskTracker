@@ -1,17 +1,17 @@
-export function getDataFromStorage(key) {
+function uploadState(key = 'tasks') {
   const string = localStorage.getItem(key);
   return JSON.parse(string);
 }
 
-export function setDataToStorage(key, data) {
-  const string = JSON.stringify(data);
+function saveState(state, key = 'tasks') {
+  const string = JSON.stringify(state);
   localStorage.setItem(key, string);
+  return true;
 }
 
-export function deleteItemFromStorage(key) {
-  localStorage.delete(key);
+function removeState(key = 'tasks') {
+  localStorage.removeItem(key);
+  return true;
 }
 
-export function clearStorage() {
-  localStorage.clear();
-}
+export default { uploadState, saveState, removeState };
