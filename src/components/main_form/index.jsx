@@ -22,7 +22,7 @@ export default class MainForm extends React.Component {
             },
             err: {}
         }
-        this.initialState = this.state;
+        this.initialState = { ...this.state };
     }
 
     handleChange = (e) => {

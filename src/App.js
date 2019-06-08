@@ -37,9 +37,8 @@ export default class App extends React.Component {
       <Router>
         <Container>
           <Navigation items={this.navHelper()} />
-
           <React.Suspense fallback={<div> Loading....</div>}>
-            <MainTab />
+            {this.state.activeNavItem === NAV_MAIN ? <MainTab /> : <Dnd />}
             {/* <Route exact path="/" render={props => <MainTab {...props} />} />
             <Route exact path="/dnd" render={props => <Dnd {...props} />} /> */}
           </React.Suspense>
