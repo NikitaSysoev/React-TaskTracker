@@ -3,12 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { Card } from '../card';
-import TextInput from '../form/input_text';
-import TextArea from '../form/textarea';
-import SelectInput from '../form/input_select';
-import CheckboxInput from '../form/input_checkbox';
+import { TextInput, TextArea, SelectInput, CheckboxInput } from '../form';
+import { TASK_OPTIONS, FORM_ADD, FORM_EDIT } from '../../lib/const';
 
 export default class MainForm extends React.Component {
+    static propTypes = {
+		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
+		taskForEdit: PropTypes.object, // номер таски, которую редактируют
+	};
+    
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -20,10 +24,23 @@ export default class MainForm extends React.Component {
                 taskUrgent: false,
                 taskStatus: 'todo',
             },
-            err: {}
+            err: {},
+            propsFlag: false
         }
         this.initialState = { ...this.state };
     }
+
+    static getDerivedStateFromProps = (nextProps, state) =>{
+		console.log("getDerivedStateFromProps = ", nextProps.taskForEdit)
+		if (!state.propsFlag && nextProps.taskForEdit) {
+			return {
+                data: nextProps.taskForEdit,
+                propsFlag: true
+			}
+		}
+		return null;
+	};
+
 
     handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -88,19 +105,22 @@ export default class MainForm extends React.Component {
                     </small>
                 </div>
 
+                <SelectInput
+                    value={this.state.data.taskStatus || ''}
+                    options={TASK_OPTIONS}
+                    name='taskStatus'
+                    onChange={this.handleChange}
+                    label='Select status'
+                    placeholder={'Status'}
+                    helper={'Выберите статус задачи'}
+                />
+
                 <CheckboxInput
                     checked={this.state.data.taskUrgent || false}
                     name='taskUrgent'
                     onChange={this.handleChange}
-                    label='Urgent'
-                />
-
-                <SelectInput
-                    value={this.state.data.taskStatus || ''}
-                    name='taskStatus'
-                    onChange={this.handleChange}
-                    label='Select status'
-                    helper={'Выберите статус задачи'}
+                    helper={'Укажите важность для задачи'}
+                    label='Task Urgency'
                 />
 
                 <div className="row">
