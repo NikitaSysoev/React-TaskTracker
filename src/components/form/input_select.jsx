@@ -29,7 +29,7 @@ const SelectInput = props => {
             <select
                 className={`${err && 'is-invalid'} form-control`}
                 name={name}
-                value={value}
+                value={value.toLocaleUpperCase()}
                 onChange={typeof onChange === 'function' ? onChange : null}
                 placeholder={placeholder}
             >

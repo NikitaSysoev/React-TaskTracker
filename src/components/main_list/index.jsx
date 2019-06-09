@@ -97,7 +97,6 @@ export default class MainList extends React.Component {
     };
 
     render() {
-        console.log(this.props.data, this.state.taskId)
         const emptyList = (
             <li className="list-group-item">
                 <span className="text-secondary">Список задач пуст</span>

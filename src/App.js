@@ -16,8 +16,8 @@ export default class App extends React.Component {
       activeNavItem: NAV_MAIN,
       taskList: [],
       taskId: null,
-			taskForEdit: null,
-			formSate: FORM_ADD, // ["add", "edit"]
+      taskForEdit: null,
+      formSate: FORM_ADD // ["add", "edit"]
     };
   }
 
@@ -32,16 +32,16 @@ export default class App extends React.Component {
   }
 
   handleEditTask = (e, taskId) => {
-    console.log("this is from App, id = ", taskId);
-		const { taskList } = this.state;
-		this.setState({
-			taskForEdit: taskList[taskId],
-			formSate: FORM_EDIT,
-		});
+    const { taskList } = this.state;
+    const taskForEdit = taskList.filter(item => item.id === taskId)[0];
+    this.setState({
+      taskForEdit,
+      formSate: FORM_EDIT
+    });
   };
 
   handleDeleteTask = (e, taskId) => {
-    console.log("this is DELETE from App, id = ", taskId);
+    console.log('this is DELETE from App, id = ', taskId);
   };
 
   handleNavClick = e => {

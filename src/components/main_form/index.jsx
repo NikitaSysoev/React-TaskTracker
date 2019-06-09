@@ -8,11 +8,11 @@ import { TASK_OPTIONS, FORM_ADD, FORM_EDIT } from '../../lib/const';
 
 export default class MainForm extends React.Component {
     static propTypes = {
-		formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
-		taskForEdit: PropTypes.object, // номер таски, которую редактируют
-	};
-    
-    
+        formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
+        taskForEdit: PropTypes.object, // номер таски, которую редактируют
+    };
+
+
     constructor(props) {
         super(props);
         this.state = {
@@ -30,16 +30,19 @@ export default class MainForm extends React.Component {
         this.initialState = { ...this.state };
     }
 
-    static getDerivedStateFromProps = (nextProps, state) =>{
-		console.log("getDerivedStateFromProps = ", nextProps.taskForEdit)
-		if (!state.propsFlag && nextProps.taskForEdit) {
-			return {
+    static getDerivedStateFromProps = (nextProps, state) => {
+
+        console.log("getDerivedStateFromProps ", nextProps.taskForEdit)
+        console.log("getDerivedStateFromProps if=", (!state.propsFlag), !!nextProps.taskForEdit)
+        if (!state.propsFlag && nextProps.taskForEdit) {
+            console.log("getDerivedStateFromProps INSIDE", nextProps.taskForEdit)
+            return {
                 data: nextProps.taskForEdit,
                 propsFlag: true
-			}
-		}
-		return null;
-	};
+            }
+        }
+        return null;
+    };
 
 
     handleChange = (e) => {
@@ -63,9 +66,15 @@ export default class MainForm extends React.Component {
     }
 
     render() {
+    console.log("main RNR", this.props.taskForEdit)        
         return (
             <Card>
-                <h4>Add Task</h4>
+                <h4>
+					{
+						this.props.formSate === FORM_ADD
+							? "Add new task"
+							: `Edit task ${ this.props.taskId || "" }`
+					}</h4>
 
                 <TextInput
                     value={this.state.data.taskName || ''}
@@ -78,7 +87,7 @@ export default class MainForm extends React.Component {
                 />
 
                 <TextArea
-                    value={this.state.data.taskDesciption || ''}
+                    value={this.state.data.taskDescription || ''}
                     name='taskDesciption'
                     onChange={this.handleChange}
                     label='Task description'

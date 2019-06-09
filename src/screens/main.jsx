@@ -5,6 +5,7 @@ import MainList from '../components/main_list';
 import MainForm from '../components/main_form';
 
 const MainTab = (props) => {
+    console.log("MainTab RND", {props})
     return (
         <div className="row">
             <div className="col-sm-6">
@@ -29,9 +30,9 @@ const MainTab = (props) => {
 export default MainTab;
 
 MainTab.propTypes = {
-	taskList: PropTypes.array, // список задач
-	onTaskEdit: PropTypes.func, // редактировать таску
-	onTaskDelete: PropTypes.func, // удалить таску
-	formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
-	taskForEdit: PropTypes.object, // номер таски, которую редактируют
+    taskList: PropTypes.array, // список задач
+    onTaskEdit: PropTypes.func, // редактировать таску
+    onTaskDelete: PropTypes.func, // удалить таску
+    formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
+    taskForEdit: PropTypes.object, // номер таски, которую редактируют
 };

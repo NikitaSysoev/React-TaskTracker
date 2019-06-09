@@ -11,6 +11,7 @@ const TextArea = props => {
     if (cols !== null) {
         colsRows.cols = cols;
     }
+    console.log("textarea", props)
     return (
         <div className="form-group">
             <label htmlFor={name} className={err ? 'text-danger' : null}>
