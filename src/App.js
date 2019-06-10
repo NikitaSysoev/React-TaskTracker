@@ -2,9 +2,9 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 // import { Route, HashRouter as Router } from 'react-router-dom';
 import { FORM_ADD, FORM_EDIT } from './lib/const';
-
-import Navigation from './components/navigation';
 import { NAV_ITEMS, NAV_MAIN } from './lib/nav_data';
+import Navigation from './components/navigation';
+
 const MainTab = React.lazy(() => import('./screens/main'));
 const Dnd = React.lazy(() => import('./screens/dnd'));
 
@@ -61,11 +61,12 @@ export default class App extends React.Component {
 
   handleDeleteTask = (e, taskId) => {
     const { taskList } = this.state;
-    const newTaskList = taskList.filter(item => String(item.id) !== taskId);
-    this.setState({
-      taskList: newTaskList
-    });
-    localStorage.setItem('TASKS', JSON.stringify(newTaskList));
+    this.setState(
+      {
+        taskList: taskList.filter(item => String(item.id) !== taskId)
+      },
+      () => localStorage.setItem('TASKS', JSON.stringify(this.state.taskList))
+    );
   };
 
   // componentDidUpdate(prevProps, prevState) {
