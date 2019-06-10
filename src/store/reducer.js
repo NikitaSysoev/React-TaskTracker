@@ -13,9 +13,9 @@ function rootReducer(store, action) {
     case ACT.DATA_TASK_UPDATE:
       return { ...store, ...action.payload };
     case ACT.FORM_STATE_ADD:
-      return { ...store, formState: FORM_ADD };
+      return { ...store, formState: FORM_ADD, taskForEdit: null };
     case ACT.FORM_STATE_EDIT:
-      return { ...store, formState: FORM_EDIT };
+      return { ...store, formState: FORM_EDIT, taskForEdit: action.payload };
     default:
       return store;
   }

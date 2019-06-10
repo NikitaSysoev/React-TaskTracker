@@ -32,6 +32,7 @@ export default class MainList extends React.Component {
             taskId,
             modalFlag: true
         })
+        console.log(taskId)
     };
 
     handleCloseModal = () => {
@@ -43,15 +44,15 @@ export default class MainList extends React.Component {
 
     handleEditTask = (e) => {
         e.persist(); // convert event React to event DOM
-        const { target } = e;
-        const taskId = target.parentElement.getAttribute('data-id');
+        const { currentTarget: target } = e;
+        const taskId = target.getAttribute('data-id');
         this.props.onTaskEdit(e, taskId);
     };
 
     handleDeleteTask = (e) => {
         e.persist(); // convert event React to event DOM
-        const { target } = e;
-        const taskId = target.parentElement.getAttribute('data-id');
+        const { currentTarget: target } = e;
+        const taskId = target.getAttribute('data-id');
         this.props.onTaskDelete(e, taskId);
     };
 
@@ -106,7 +107,7 @@ export default class MainList extends React.Component {
             : emptyList;
 
         const filterElement = () => {
-            return this.props.data ? this.props.data.filter(item => item.id === this.state.taskId)[0] : null;
+            return this.props.data ? this.props.data.find(item => String(item.id) === this.state.taskId) : null;
         }
 
         return (

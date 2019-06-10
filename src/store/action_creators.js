@@ -30,9 +30,9 @@ export function stateFormAdd() {
     type: ACT.FORM_STATE_ADD
   };
 }
-
-export function stateFormEdit() {
+export function stateFormEdit(payload) {
   return {
-    type: ACT.FORM_STATE_EDIT
+    type: ACT.FORM_STATE_EDIT,
+    payload
   };
 }

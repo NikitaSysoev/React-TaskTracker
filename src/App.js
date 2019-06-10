@@ -27,15 +27,15 @@ export default class App extends React.Component {
     } catch {
       console.log('Error localstorage upload data');
     }
-   this.setState({ taskList: taskList !== null ? taskList : [] }) 
+    this.setState({ taskList: taskList !== null ? taskList : [] });
   }
 
   handleSaveFormData = data => {
-    const { taskList  } = this.state;
+    const { taskList } = this.state;
     if (this.state.formSate === FORM_ADD) {
       taskList.push(data);
     } else {
-      taskList.filter(item => this.state.taskId === item.id)[0] = { ...data };
+      taskList.filter(item => this.state.taskId === String(item.id))[0] = { ...data };
     }
     this.setState({
       taskList,
@@ -49,7 +49,8 @@ export default class App extends React.Component {
 
   handleEditTask = (e, taskId) => {
     const { taskList } = this.state;
-    const taskForEdit = taskList.filter(item => item.id === taskId)[0];
+    const taskForEdit = taskList.find(item => String(item.id) === taskId);
+    console.log(taskForEdit);
     this.setState({
       taskForEdit,
       formSate: FORM_EDIT
@@ -57,7 +58,6 @@ export default class App extends React.Component {
   };
 
   handleDeleteTask = (e, taskId) => {
-    
     console.log('this is DELETE from App, id = ', taskId);
   };
 
@@ -91,7 +91,7 @@ export default class App extends React.Component {
                 onTaskDelete={this.handleDeleteTask}
                 taskForEdit={this.state.taskForEdit}
                 formSate={this.state.formSate}
-                onSaveData={ this.handleSaveFormData }
+                onSaveData={this.handleSaveFormData}
               />
             ) : (
               <Dnd />
