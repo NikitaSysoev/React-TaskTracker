@@ -14,7 +14,6 @@ export default class App extends React.Component {
     this.state = {
       activeNavItem: NAV_MAIN,
       taskList: [],
-      taskId: null,
       taskForEdit: null,
       formSate: FORM_ADD // ["add", "edit"]
     };
@@ -31,15 +30,19 @@ export default class App extends React.Component {
   }
 
   handleSaveFormData = data => {
-    const { taskList } = this.state;
+    let { taskList } = this.state;
     if (this.state.formSate === FORM_ADD) {
       taskList.push(data);
     } else {
-      taskList.filter(item => this.state.taskId === String(item.id))[0] = { ...data };
+      taskList = taskList.map(item => {
+        if (item.id === this.state.taskForEdit.id) {
+          return data;
+        }
+        return item;
+      });
     }
     this.setState({
       taskList,
-      taskId: null,
       taskForEdit: null,
       formSate: FORM_ADD
     });
@@ -50,8 +53,8 @@ export default class App extends React.Component {
   handleEditTask = (e, taskId) => {
     const { taskList } = this.state;
     const taskForEdit = taskList.find(item => String(item.id) === taskId);
-    console.log(taskForEdit);
     this.setState({
+      taskId,
       taskForEdit,
       formSate: FORM_EDIT
     });

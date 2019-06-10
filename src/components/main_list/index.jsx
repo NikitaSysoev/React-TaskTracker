@@ -32,7 +32,6 @@ export default class MainList extends React.Component {
             taskId,
             modalFlag: true
         })
-        console.log(taskId)
     };
 
     handleCloseModal = () => {
