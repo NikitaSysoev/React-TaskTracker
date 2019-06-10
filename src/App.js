@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { Route, HashRouter as Router } from 'react-router-dom';
+// import { Route, HashRouter as Router } from 'react-router-dom';
 import { FORM_ADD, FORM_EDIT } from './lib/const';
 
 import Navigation from './components/navigation';
@@ -54,15 +54,26 @@ export default class App extends React.Component {
     const { taskList } = this.state;
     const taskForEdit = taskList.find(item => String(item.id) === taskId);
     this.setState({
-      taskId,
       taskForEdit,
       formSate: FORM_EDIT
     });
   };
 
   handleDeleteTask = (e, taskId) => {
-    console.log('this is DELETE from App, id = ', taskId);
+    const { taskList } = this.state;
+    const newTaskList = taskList.filter(item => String(item.id) !== taskId);
+    this.setState({
+      taskList: newTaskList
+    });
+    localStorage.setItem('TASKS', JSON.stringify(newTaskList));
   };
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { taskList } = this.state;
+  //   if (JSON.stringify(taskList) !== JSON.stringify(prevState.taskList)) {
+  //     localStorage.setItem('TASKS', JSON.stringify(taskList));
+  //   }
+  // }
 
   handleNavClick = e => {
     const { target } = e;
@@ -83,27 +94,25 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Container>
-          <Navigation items={this.navHelper()} />
-          <React.Suspense fallback={<div> Loading....</div>}>
-            {this.state.activeNavItem === NAV_MAIN ? (
-              <MainTab
-                onTaskEdit={this.handleEditTask}
-                taskList={this.state.taskList}
-                onTaskDelete={this.handleDeleteTask}
-                taskForEdit={this.state.taskForEdit}
-                formSate={this.state.formSate}
-                onSaveData={this.handleSaveFormData}
-              />
-            ) : (
-              <Dnd />
-            )}
-            {/* <Route exact path="/" render={props => <MainTab {...props} />} />
+      <Container>
+        <Navigation items={this.navHelper()} />
+        <React.Suspense fallback={<div> Loading....</div>}>
+          {this.state.activeNavItem === NAV_MAIN ? (
+            <MainTab
+              onTaskEdit={this.handleEditTask}
+              taskList={this.state.taskList}
+              onTaskDelete={this.handleDeleteTask}
+              taskForEdit={this.state.taskForEdit}
+              formSate={this.state.formSate}
+              onSaveData={this.handleSaveFormData}
+            />
+          ) : (
+            <Dnd />
+          )}
+          {/* <Route exact path="/" render={props => <MainTab {...props} />} />
             <Route exact path="/dnd" render={props => <Dnd {...props} />} /> */}
-          </React.Suspense>
-        </Container>
-      </Router>
+        </React.Suspense>
+      </Container>
     );
   }
 }

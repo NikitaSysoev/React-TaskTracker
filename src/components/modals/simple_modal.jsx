@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const Modal = (props) => {
 	const {
 		title,
-		onActionClick: handleAction ,
+		onActionClick: handleAction,
 		onCancelClick: handleCancel,
 		children,
 		cancelBtn = "Cancel",
 		actionBtn = "Ok",
 		display = false,
 	} = props;
-	console.log("Modal: ", display)
 	return display && (
-		<div id="modal1" className="modal" tabIndex="-1" role="dialog" style={ {display: "block"} }>
+		<div id="modal1" className="modal" tabIndex="-1" role="dialog" style={{ display: "block" }}>
 			<div className="modal-dialog modal-lg" role="document">
 				<div className="modal-content">
 					<div className="modal-header">
-						<h5 className="modal-title">{ title }</h5>
-						<button onClick={ handleCancel } type="button" className="close" data-dismiss="modal"
-						        aria-label="Close">
+						<h5 className="modal-title">{title}</h5>
+						<button onClick={handleCancel} type="button" className="close" data-dismiss="modal"
+							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
@@ -31,19 +29,19 @@ const Modal = (props) => {
 					</div>
 					<div className="modal-footer">
 						<button
-							onClick={ handleCancel }
+							onClick={handleCancel}
 							type="button"
 							className="btn btn-secondary"
-			        data-dismiss="modal"
+							data-dismiss="modal"
 						>
-							{ cancelBtn }
+							{cancelBtn}
 						</button>
 						<button
-							onClick={ handleAction }
+							onClick={handleAction}
 							type="button"
 							className="btn btn-primary"
 						>
-							{ actionBtn }
+							{actionBtn}
 						</button>
 					</div>
 				</div>

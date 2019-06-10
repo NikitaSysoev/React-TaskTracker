@@ -31,7 +31,7 @@ export default class MainList extends React.Component {
         this.setState({
             taskId,
             modalFlag: true
-        })
+        });
     };
 
     handleCloseModal = () => {
@@ -54,6 +54,11 @@ export default class MainList extends React.Component {
         const taskId = target.getAttribute('data-id');
         this.props.onTaskDelete(e, taskId);
     };
+
+    handleClearList = () => {
+
+        localStorage.removeItem('TASKS');
+    }
 
     renderOneTask = (item) => {
         return (
@@ -120,6 +125,13 @@ export default class MainList extends React.Component {
                 {
                     this.props.children // компоненты "дети", которые были переданы внутрь <MainList>....</MainList>
                 }
+                <button
+                    type="button"
+                    className="btn btn-outline-danger"
+                    onClick={this.handleClearList}
+                    style={{ marginTop: '10px' }}>
+                    Clear List
+                </button>
                 <Modal
                     title="Some title"
                     onCancelClick={this.handleCloseModal}

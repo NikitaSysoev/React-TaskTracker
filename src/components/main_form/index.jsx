@@ -16,24 +16,14 @@ export default class MainForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {
-                // taskId: null,
-                // taskName: '',
-                // taskDescription: '',
-                // taskDate: null,
-                // taskUrgent: false,
-                // taskStatus: 'todo',
-            },
+            data: {},
             err: {},
             propsFlag: false
         }
     }
 
     static getDerivedStateFromProps = (nextProps, state) => {
-        console.log("getDerivedStateFromProps ", nextProps.taskForEdit)
-        console.log("getDerivedStateFromProps if=", (!state.propsFlag), !!nextProps.taskForEdit)
         if (!state.propsFlag && nextProps.taskForEdit) {
-            console.log("getDerivedStateFromProps INSIDE", nextProps.taskForEdit)
             return {
                 data: nextProps.taskForEdit,
                 propsFlag: true
@@ -70,8 +60,6 @@ export default class MainForm extends React.Component {
     }
 
     render() {
-        // console.log("main RNR", this.props.taskForEdit)
-        console.log('props', this.props);
         return (
             <Card>
                 <h4>
