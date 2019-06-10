@@ -2,8 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './css/index.css';
-import './css/micalendar.css';
+import './micalendar.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

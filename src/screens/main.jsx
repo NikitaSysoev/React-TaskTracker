@@ -5,16 +5,14 @@ import MainList from '../components/main_list';
 import MainForm from '../components/main_form';
 
 const MainTab = (props) => {
-    console.log("MainTab RND", {props})
     return (
         <div className="row">
             <div className="col-sm-6">
                 <MainForm
                     taskForEdit={props.taskForEdit}
                     formSate={props.formSate}
-                >
-                    <p>This is children from Main Tab</p>
-                </MainForm>
+                    onSaveData={props.onSaveData}
+                />
             </div>
             <div className="col-sm-6">
                 <MainList
@@ -35,4 +33,5 @@ MainTab.propTypes = {
     onTaskDelete: PropTypes.func, // удалить таску
     formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
     taskForEdit: PropTypes.object, // номер таски, которую редактируют
+    onSaveData: PropTypes.func
 };

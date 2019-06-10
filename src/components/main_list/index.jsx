@@ -15,7 +15,6 @@ export default class MainList extends React.Component {
         }
     }
 
-
     static propTypes = {
         data: PropTypes.array, // список задач длдя рендера
         onTaskEdit: PropTypes.func,
@@ -106,7 +105,7 @@ export default class MainList extends React.Component {
             ? this.props.data.map(this.renderOneTask)
             : emptyList;
 
-        const filterElement = (id) => {
+        const filterElement = () => {
             return this.props.data ? this.props.data.filter(item => item.id === this.state.taskId)[0] : null;
         }
 
@@ -118,7 +117,6 @@ export default class MainList extends React.Component {
                         list
                     }
                 </ul>
-
                 {
                     this.props.children // компоненты "дети", которые были переданы внутрь <MainList>....</MainList>
                 }

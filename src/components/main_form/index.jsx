@@ -10,28 +10,26 @@ export default class MainForm extends React.Component {
     static propTypes = {
         formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
         taskForEdit: PropTypes.object, // номер таски, которую редактируют
+        onSaveData: PropTypes.func
     };
-
 
     constructor(props) {
         super(props);
         this.state = {
             data: {
-                taskid: null,
-                taskName: '',
-                taskDesciption: '',
-                taskDate: null,
-                taskUrgent: false,
-                taskStatus: 'todo',
+                // taskId: null,
+                // taskName: '',
+                // taskDescription: '',
+                // taskDate: null,
+                // taskUrgent: false,
+                // taskStatus: 'todo',
             },
             err: {},
             propsFlag: false
         }
-        this.initialState = { ...this.state };
     }
 
     static getDerivedStateFromProps = (nextProps, state) => {
-
         console.log("getDerivedStateFromProps ", nextProps.taskForEdit)
         console.log("getDerivedStateFromProps if=", (!state.propsFlag), !!nextProps.taskForEdit)
         if (!state.propsFlag && nextProps.taskForEdit) {
@@ -57,24 +55,32 @@ export default class MainForm extends React.Component {
     }
 
     handleClearForm = () => {
-        this.setState({ ...this.initialState });
+        this.setState({ data: {} });
     }
 
-    handleAddTask = (e) => {
-        e.preventDefault();
+    handleResetData = () => {
+        this.handleClearForm();
+    }
 
+    handleSaveData = (e) => {
+        e.preventDefault();
+        if (this.props.onSaveData({ ...this.state.data, id: new Date().valueOf() }) === true) {
+            this.setState({ data: {} });
+        }
     }
 
     render() {
-    console.log("main RNR", this.props.taskForEdit)        
+        // console.log("main RNR", this.props.taskForEdit)
+        console.log('props', this.props);
         return (
             <Card>
                 <h4>
-					{
-						this.props.formSate === FORM_ADD
-							? "Add new task"
-							: `Edit task ${ this.props.taskId || "" }`
-					}</h4>
+                    {
+                        this.props.formSate === FORM_ADD
+                            ? "Add new task"
+                            : `Edit task ${this.props.taskId || ""}`
+                    }
+                </h4>
 
                 <TextInput
                     value={this.state.data.taskName || ''}
@@ -88,7 +94,7 @@ export default class MainForm extends React.Component {
 
                 <TextArea
                     value={this.state.data.taskDescription || ''}
-                    name='taskDesciption'
+                    name='taskDescription'
                     onChange={this.handleChange}
                     label='Task description'
                     helper={'Введите описание вашей задачи'}
@@ -133,23 +139,28 @@ export default class MainForm extends React.Component {
                 />
 
                 <div className="row">
-                    <div className="col-sm-6">
+                    <div className='col-sm-6'>
                         <button
                             type="submit"
-                            className="btn btn-primary"
-                            onClick={this.handleAddTask}
+                            className={`btn ${this.props.formSate === FORM_ADD ? 'btn-primary' : 'btn-warning'}`}
+                            onClick={this.handleSaveData}
                         >
-                            Add new task
-                            </button>
+                            {
+                                this.props.formSate === FORM_ADD ? "Add new task" : "Save changes"
+                            }
+                        </button>
                     </div>
-                    <div className="col-sm-6">
+                    <div className='col-sm-6'>
                         <button
                             type="submit"
                             className="btn btn-secondary"
-                            onClick={this.handleClearForm}
+                            onClick={this.handleResetData}
                         >
-                            Clear form
-                            </button>
+
+                            {
+                                this.props.formSate === FORM_ADD ? "Clear form" : "Cancel"
+                            }
+                        </button>
                     </div>
                 </div>
             </Card>

@@ -24,3 +24,15 @@ export function deleteTask(payload) {
     payload
   };
 }
+
+export function stateFormAdd() {
+  return {
+    type: ACT.FORM_STATE_ADD
+  };
+}
+
+export function stateFormEdit() {
+  return {
+    type: ACT.FORM_STATE_EDIT
+  };
+}
