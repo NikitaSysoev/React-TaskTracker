@@ -18,6 +18,7 @@ const MainTab = (props) => {
                 <MainList
                     onTaskEdit={props.onTaskEdit}
                     onTaskDelete={props.onTaskDelete}
+                    onListClear = {props.onListClear}
                     data={props.taskList}
                 />
             </div>
@@ -33,5 +34,6 @@ MainTab.propTypes = {
     onTaskDelete: PropTypes.func, // удалить таску
     formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
     taskForEdit: PropTypes.object, // номер таски, которую редактируют
-    onSaveData: PropTypes.func
+    onSaveData: PropTypes.func,
+    onListClear: PropTypes.func
 };

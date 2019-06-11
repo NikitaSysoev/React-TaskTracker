@@ -59,6 +59,11 @@ export default class App extends React.Component {
     });
   };
 
+  handleClearList = () => {
+    this.setState({ taskList: [] });
+    localStorage.removeItem('TASKS');
+  };
+
   handleDeleteTask = (e, taskId) => {
     const { taskList } = this.state;
     this.setState(
@@ -106,6 +111,7 @@ export default class App extends React.Component {
               taskForEdit={this.state.taskForEdit}
               formSate={this.state.formSate}
               onSaveData={this.handleSaveFormData}
+              onListClear = {this.handleClearList}
             />
           ) : (
             <Dnd />

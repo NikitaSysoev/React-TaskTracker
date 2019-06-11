@@ -55,9 +55,8 @@ export default class MainList extends React.Component {
         this.props.onTaskDelete(e, taskId);
     };
 
-    handleClearList = () => {
-
-        localStorage.removeItem('TASKS');
+    handleClearList() {
+        this.props.onListClear();
     }
 
     renderOneTask = (item) => {
@@ -110,10 +109,20 @@ export default class MainList extends React.Component {
             ? this.props.data.map(this.renderOneTask)
             : emptyList;
 
+        const btnClearAll = this.props.data && this.props.data.length ?
+            <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={this.handleClearList.bind(this)}
+                style={{ marginTop: '10px' }}>
+                Clear List
+            </button>
+            :
+            null;
+
         const filterElement = () => {
             return this.props.data ? this.props.data.find(item => String(item.id) === this.state.taskId) : null;
         }
-
         return (
             <Card>
                 <h4>Список всех задач</h4>
@@ -123,15 +132,8 @@ export default class MainList extends React.Component {
                     }
                 </ul>
                 {
-                    this.props.children // компоненты "дети", которые были переданы внутрь <MainList>....</MainList>
+                    btnClearAll
                 }
-                <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={this.handleClearList}
-                    style={{ marginTop: '10px' }}>
-                    Clear List
-                </button>
                 <Modal
                     title="Some title"
                     onCancelClick={this.handleCloseModal}
