@@ -12,6 +12,7 @@ const MainTab = (props) => {
                     taskForEdit={props.taskForEdit}
                     formSate={props.formSate}
                     onSaveData={props.onSaveData}
+                    onResetData={props.onResetData}
                 />
             </div>
             <div className="col-sm-6">
@@ -35,5 +36,6 @@ MainTab.propTypes = {
     formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
     taskForEdit: PropTypes.object, // номер таски, которую редактируют
     onSaveData: PropTypes.func,
-    onListClear: PropTypes.func
+    onListClear: PropTypes.func,
+    onResetData: PropTypes.func
 };

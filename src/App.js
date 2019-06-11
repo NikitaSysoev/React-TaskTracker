@@ -49,9 +49,16 @@ export default class App extends React.Component {
     return true;
   };
 
+  handleResetData = () => {
+    this.setState({
+      taskForEdit: null,
+      formSate: FORM_ADD
+    });
+  }
+
   handleEditTask = (e, taskId) => {
     const { taskList } = this.state;
-    const taskForEdit = taskList.find(item => String(item.id) === taskId);
+    const taskForEdit = taskList.find(item => item.id === taskId);
     this.setState({
       taskForEdit,
       formSate: FORM_EDIT
@@ -67,7 +74,7 @@ export default class App extends React.Component {
     const { taskList } = this.state;
     this.setState(
       {
-        taskList: taskList.filter(item => String(item.id) !== taskId)
+        taskList: taskList.filter(item => item.id !== taskId)
       },
       () => localStorage.setItem('TASKS', JSON.stringify(this.state.taskList))
     );
@@ -105,6 +112,7 @@ export default class App extends React.Component {
               formSate={this.state.formSate}
               onSaveData={this.handleSaveFormData}
               onListClear={this.handleClearList}
+              onResetData={this.handleResetData}
             />
           ) : (
             <Dnd taskList={this.state.taskList} />

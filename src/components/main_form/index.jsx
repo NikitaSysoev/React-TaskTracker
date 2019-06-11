@@ -50,13 +50,15 @@ export default class MainForm extends React.Component {
     }
 
     handleResetData = () => {
-        this.handleClearForm();
+        this.props.onResetData();
+        this.setState({ data: {} });
     }
 
     handleSaveData = (e) => {
         e.preventDefault();
-        const { taskStatus = TODO } = this.state.data;
-        if (this.props.onSaveData({ ...this.state.data, taskStatus, id: new Date().valueOf() }) === true) {
+        const { data } = this.state;
+        const { taskStatus = TODO } = data;
+        if (this.props.onSaveData({ ...data, taskStatus, id: String(Date.now()) }) === true) {
             this.setState({ data: {} });
         }
     }
@@ -68,7 +70,7 @@ export default class MainForm extends React.Component {
                     {
                         this.props.formSate === FORM_ADD
                             ? "Add new task"
-                            : `Edit task ${this.props.taskId || ""}`
+                            : `Edit task ${this.props.taskForEdit.taskName || ""}`
                     }
                 </h4>
 
@@ -143,7 +145,7 @@ export default class MainForm extends React.Component {
                     <div className='col-sm-6'>
                         <button
                             type="submit"
-                            className="btn btn-secondary"
+                            className={`btn ${this.props.formSate === FORM_ADD ? 'btn-secondary' : 'btn-danger'}`}
                             onClick={this.handleResetData}
                         >
                             {
