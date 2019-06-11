@@ -73,13 +73,6 @@ export default class App extends React.Component {
     );
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { taskList } = this.state;
-  //   if (JSON.stringify(taskList) !== JSON.stringify(prevState.taskList)) {
-  //     localStorage.setItem('TASKS', JSON.stringify(taskList));
-  //   }
-  // }
-
   handleNavClick = e => {
     const { target } = e;
     const newItem = target.getAttribute('data-name');
@@ -113,7 +106,7 @@ export default class App extends React.Component {
               onListClear={this.handleClearList}
             />
           ) : (
-            <Dnd />
+            <Dnd taskList={this.state.taskList} />
           )}
           {/* <Route exact path="/" render={props => <MainTab {...props} />} />
             <Route exact path="/dnd" render={props => <Dnd {...props} />} /> */}

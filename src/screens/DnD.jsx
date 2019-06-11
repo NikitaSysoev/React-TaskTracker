@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { TODO, IN_PROGRESS, DONE } from '../lib/const';
 
 const renderOneTask = (item) => {
     return (
@@ -12,7 +13,7 @@ const renderOneTask = (item) => {
             }
             <a
                 href="#"
-                // onClick={this.handleViewTask}
+                // onClick={props.handleViewTask}
                 data-id={item.id}
             >
                 {item.taskName}
@@ -37,13 +38,11 @@ const DnD = (props) => {
     });
 
     React.useEffect(() => {
-        const string = localStorage.getItem('TASKS');
-        const taskList = JSON.parse(string);
-        const todo = taskList.filter(item => item.taskStatus === 'TODO');
-        const inprogress = taskList.filter(item => item.taskStatus === 'INPROGRESS');
-        const done = taskList.filter(item => item.taskStatus === 'DONE');
+        const todo = props.taskList.filter(item => item.taskStatus === TODO);
+        const inprogress = props.taskList.filter(item => item.taskStatus === IN_PROGRESS);
+        const done = props.taskList.filter(item => item.taskStatus === DONE);
         setState({ todo, inprogress, done });
-    }, []);
+    }, [props.taskList]);
 
     const emptyList = <li className="list-group-item">
         <strong className="text-secondary">Список пуст</strong>

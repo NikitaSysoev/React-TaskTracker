@@ -2,9 +2,10 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+
 import { Card } from '../card';
 import { TextInput, TextArea, SelectInput, CheckboxInput } from '../form';
-import { TASK_OPTIONS, FORM_ADD } from '../../lib/const';
+import { TASK_OPTIONS, FORM_ADD, TODO } from '../../lib/const';
 
 export default class MainForm extends React.Component {
     static propTypes = {
@@ -54,7 +55,7 @@ export default class MainForm extends React.Component {
 
     handleSaveData = (e) => {
         e.preventDefault();
-        const { taskStatus = 'TODO' } = this.state.data;
+        const { taskStatus = TODO } = this.state.data;
         if (this.props.onSaveData({ ...this.state.data, taskStatus, id: new Date().valueOf() }) === true) {
             this.setState({ data: {} });
         }
@@ -110,7 +111,7 @@ export default class MainForm extends React.Component {
                 </div>
 
                 <SelectInput
-                    value={this.state.data.taskStatus || 'TODO'}
+                    value={this.state.data.taskStatus || TODO}
                     options={TASK_OPTIONS}
                     name='taskStatus'
                     onChange={this.handleChange}
