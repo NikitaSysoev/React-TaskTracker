@@ -74,6 +74,7 @@ export default class App extends React.Component {
   };
 
   handleNavClick = e => {
+    e.preventDefault();
     const { target } = e;
     const newItem = target.getAttribute('data-name');
     this.setState({ activeNavItem: newItem });

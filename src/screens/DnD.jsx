@@ -12,7 +12,8 @@ const renderOneTask = (item) => {
                 item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
             }
             <a
-                href="#"
+                href={item.id}
+                onClick={(e) => e.preventDefault()}
                 // onClick={props.handleViewTask}
                 data-id={item.id}
             >
@@ -53,9 +54,11 @@ const DnD = (props) => {
             <div className="col-sm-4">
                 <div className="card">
                     <div className="card-body card-body-dnd">
-                        <h3>To Do</h3>
+                        <h3>К исполнению</h3>
                         <ul className="list-group">
-                            {state.todo.length ? state.todo.map(renderOneTask) : emptyList}
+                            {state.todo.length ?
+                                state.todo.map(renderOneTask)
+                                : emptyList}
                         </ul>
                     </div>
                 </div>
@@ -63,7 +66,7 @@ const DnD = (props) => {
             <div className="col-sm-4">
                 <div className="card">
                     <div className="card-body card-body-dnd">
-                        <h3>In progress</h3>
+                        <h3>В процессе</h3>
                         <ul className="list-group">
                             {state.inprogress.length ? state.inprogress.map(renderOneTask) : emptyList}
                         </ul>
@@ -73,7 +76,7 @@ const DnD = (props) => {
             <div className="col-sm-4">
                 <div className="card">
                     <div className="card-body card-body-dnd">
-                        <h3>Done</h3>
+                        <h3>Готово</h3>
                         <ul className="list-group">
                             {state.done.length ? state.done.map(renderOneTask) : emptyList}
                         </ul>

@@ -26,6 +26,7 @@ export default class MainList extends React.Component {
     };
 
     handleViewTask = (e) => {
+        e.preventDefault();
         const { target } = e;
         const taskId = target.getAttribute('data-id');
         this.setState({
@@ -66,7 +67,7 @@ export default class MainList extends React.Component {
                     item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
                 }
                 <a
-                    href="#"
+                    href={item.id}
                     onClick={this.handleViewTask}
                     data-id={item.id}
                 >

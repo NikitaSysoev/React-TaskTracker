@@ -6,6 +6,7 @@ const renderNavItem = (item) => {
     const { title, onClick, isActive, name } = item;
     return (
         <a
+            href={name}
             data-name={name}
             key={name}
             onClick={onClick}
