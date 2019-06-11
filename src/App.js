@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
 // import { Route, HashRouter as Router } from 'react-router-dom';
 import { FORM_ADD, FORM_EDIT } from './lib/const';
 import { NAV_ITEMS, NAV_MAIN } from './lib/nav_data';
@@ -100,7 +99,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div className="container">
         <Navigation items={this.navHelper()} />
         <React.Suspense fallback={<div> Loading....</div>}>
           {this.state.activeNavItem === NAV_MAIN ? (
@@ -111,7 +110,7 @@ export default class App extends React.Component {
               taskForEdit={this.state.taskForEdit}
               formSate={this.state.formSate}
               onSaveData={this.handleSaveFormData}
-              onListClear = {this.handleClearList}
+              onListClear={this.handleClearList}
             />
           ) : (
             <Dnd />
@@ -119,7 +118,7 @@ export default class App extends React.Component {
           {/* <Route exact path="/" render={props => <MainTab {...props} />} />
             <Route exact path="/dnd" render={props => <Dnd {...props} />} /> */}
         </React.Suspense>
-      </Container>
+      </div>
     );
   }
 }

@@ -18,7 +18,7 @@ const MainTab = (props) => {
                 <MainList
                     onTaskEdit={props.onTaskEdit}
                     onTaskDelete={props.onTaskDelete}
-                    onListClear = {props.onListClear}
+                    onListClear={props.onListClear}
                     data={props.taskList}
                 />
             </div>
