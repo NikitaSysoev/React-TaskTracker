@@ -23,22 +23,17 @@ export default class App extends React.Component {
     try {
       taskList = JSON.parse(localStorage.getItem('TASKS'));
     } catch {
-      console.log('Error localstorage upload data');
+      console.error('Error localstorage upload data');
     }
     this.setState({ taskList: taskList !== null ? taskList : [] });
   }
 
   handleSaveFormData = data => {
-    let { taskList } = this.state;
-    if (this.state.formSate === FORM_ADD) {
-      taskList.push(data);
+    let { taskList, formSate, taskForEdit } = this.state;
+    if (formSate === FORM_ADD) {
+      taskList = taskList.concat(data);
     } else {
-      taskList = taskList.map(item => {
-        if (item.id === this.state.taskForEdit.id) {
-          return data;
-        }
-        return item;
-      });
+      taskList = taskList.map(item => (item.id === taskForEdit.id ? data : item));
     }
     this.setState({
       taskList,
@@ -54,15 +49,21 @@ export default class App extends React.Component {
       taskForEdit: null,
       formSate: FORM_ADD
     });
-  }
+  };
 
   handleEditTask = (e, taskId) => {
     const { taskList } = this.state;
     const taskForEdit = taskList.find(item => item.id === taskId);
-    this.setState({
-      taskForEdit,
-      formSate: FORM_EDIT
-    });
+    if (taskForEdit === this.state.taskForEdit || this.state.formSate === FORM_EDIT) {
+      this.handleResetData();
+      return false;
+    }
+    if (this.state.formSate === FORM_ADD) {
+      this.setState({
+        taskForEdit,
+        formSate: FORM_EDIT
+      });
+    }
   };
 
   handleClearList = () => {

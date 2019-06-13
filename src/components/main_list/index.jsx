@@ -61,8 +61,9 @@ export default class MainList extends React.Component {
     }
 
     renderOneTask = (item) => {
+        const isActive = (this.props.taskForEdit && this.props.taskForEdit.id === item.id) ? 'active' : '';
         return (
-            <li key={item.id} className="list-group-item" style={{ position: "relative" }}>
+            <li key={item.id} className={`list-group-item ${isActive}`} style={{ position: "relative" }}>
                 {
                     item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
                 }
@@ -70,6 +71,7 @@ export default class MainList extends React.Component {
                     href={item.id}
                     onClick={this.handleViewTask}
                     data-id={item.id}
+                    style={{ color: 'black' }}
                 >
                     {item.taskName}
                 </a>

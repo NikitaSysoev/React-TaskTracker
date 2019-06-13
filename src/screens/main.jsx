@@ -20,6 +20,7 @@ const MainTab = (props) => {
                     onTaskEdit={props.onTaskEdit}
                     onTaskDelete={props.onTaskDelete}
                     onListClear={props.onListClear}
+                    taskForEdit={props.taskForEdit}
                     data={props.taskList}
                 />
             </div>

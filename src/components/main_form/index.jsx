@@ -1,10 +1,8 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
 import { Card } from '../card';
-import { TextInput, TextArea, SelectInput, CheckboxInput } from '../form';
+import { TextInput, TextArea, SelectInput, CheckboxInput, DateInput } from '../form';
 import { TASK_OPTIONS, FORM_ADD, TODO } from '../../lib/const';
 
 export default class MainForm extends React.Component {
@@ -93,24 +91,11 @@ export default class MainForm extends React.Component {
                     rows={4}
                 />
 
-                <div className="form-group">
-                    <label>Task date<span className="text-muted">*</span></label>
-                    <div className="input-group">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">
-                                <FontAwesomeIcon icon={faCalendar} />
-                            </span>
-                        </div>
-                        <input
-                            type="text"
-                            className={'form-control'}
-                            placeholder="Date"
-                        />
-                    </div>
-                    <small className="form-text text-muted">
-                        Это поле обязательное для заполнения
-                    </small>
-                </div>
+                <DateInput
+                    label='Task date'
+                    placeholder='Date'
+                    mandatory
+                />
 
                 <SelectInput
                     value={this.state.data.taskStatus || TODO}
