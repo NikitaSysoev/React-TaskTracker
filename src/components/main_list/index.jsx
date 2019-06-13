@@ -61,9 +61,14 @@ export default class MainList extends React.Component {
     }
 
     renderOneTask = (item) => {
-        const isActive = (this.props.taskForEdit && this.props.taskForEdit.id === item.id) ? 'active' : '';
+        const { taskForEdit } = this.props;
+        const isActive = taskForEdit && taskForEdit.id === item.id ? 'active' : '';
         return (
-            <li key={item.id} className={`list-group-item ${isActive}`} style={{ position: "relative" }}>
+            <li
+                key={item.id}
+                className={`list-group-item ${isActive}`}
+                style={{ position: "relative" }}
+            >
                 {
                     item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
                 }

@@ -36,7 +36,7 @@ MainTab.propTypes = {
     onTaskDelete: PropTypes.func, // удалить таску
     formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
     taskForEdit: PropTypes.object, // номер таски, которую редактируют
-    onSaveData: PropTypes.func,
-    onListClear: PropTypes.func,
-    onResetData: PropTypes.func
+    onSaveData: PropTypes.func, // метод обновления даты
+    onListClear: PropTypes.func, // метод очистки листа
+    onResetData: PropTypes.func // 
 };
