@@ -3,6 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { TODO, IN_PROGRESS, DONE } from '../lib/const';
 
+const handleViewTask = (e) => {
+    e.preventDefault();
+    const taskId = e.target.getAttribute('data-id');
+    console.log(taskId);
+}
+
 const renderOneTask = (item) => {
     return (
         <li key={item.id}
@@ -13,8 +19,8 @@ const renderOneTask = (item) => {
             }
             <a
                 href={item.id}
-                onClick={(e) => e.preventDefault()}
-                // onClick={props.handleViewTask}
+                style={{ color: 'black' }}
+                onClick={handleViewTask}
                 data-id={item.id}
             >
                 {item.taskName}

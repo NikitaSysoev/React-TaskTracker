@@ -24,8 +24,8 @@ export default class MainForm extends React.Component {
     static getDerivedStateFromProps = (nextProps, state) => {
         if (!state.propsFlag && nextProps.taskForEdit) {
             return {
-            data: nextProps.taskForEdit,
-              propsFlag: true
+                data: nextProps.taskForEdit,
+                propsFlag: true
             }
         }
         return null;

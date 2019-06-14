@@ -24,14 +24,6 @@ const Navigation = (props) => {
                 {
                     items.map(renderNavItem)
                 }
-                {/* <a
-                    name="home"
-                    className={'nav-item nav-link active'}
-                ><Link to="/">Home</Link></a>
-                <a
-                    name="dnd"
-                    className={'nav-item nav-link'}
-                > <Link to="/dnd">DnD</Link></a> */}
             </div >
         </nav>
     )

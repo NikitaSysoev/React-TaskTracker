@@ -118,8 +118,6 @@ export default class App extends React.Component {
           ) : (
             <Dnd taskList={this.state.taskList} />
           )}
-          {/* <Route exact path="/" render={props => <MainTab {...props} />} />
-            <Route exact path="/dnd" render={props => <Dnd {...props} />} /> */}
         </React.Suspense>
       </div>
     );
