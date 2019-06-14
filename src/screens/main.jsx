@@ -18,10 +18,8 @@ const MainTab = (props) => {
             <div className="col-sm-6">
                 <MainList
                     onTaskEdit={props.onTaskEdit}
-                    onTaskDelete={props.onTaskDelete}
                     onListClear={props.onListClear}
                     taskForEdit={props.taskForEdit}
-                    data={props.taskList}
                 />
             </div>
         </div>

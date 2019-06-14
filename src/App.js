@@ -12,20 +12,9 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       activeNavItem: NAV_MAIN,
-      taskList: [],
       taskForEdit: null,
       formSate: FORM_ADD // ["add", "edit"]
     };
-  }
-
-  componentDidMount() {
-    let taskList = null;
-    try {
-      taskList = JSON.parse(localStorage.getItem('TASKS'));
-    } catch {
-      console.error('Error localstorage upload data');
-    }
-    this.setState({ taskList: taskList !== null ? taskList : [] });
   }
 
   handleSaveFormData = data => {
@@ -71,15 +60,15 @@ export default class App extends React.Component {
     localStorage.removeItem('TASKS');
   };
 
-  handleDeleteTask = (e, taskId) => {
-    const { taskList } = this.state;
-    this.setState(
-      {
-        taskList: taskList.filter(item => item.id !== taskId)
-      },
-      () => localStorage.setItem('TASKS', JSON.stringify(this.state.taskList))
-    );
-  };
+  // handleDeleteTask = (e, taskId) => {
+  //   const { taskList } = this.state;
+  //   this.setState(
+  //     {
+  //       taskList: taskList.filter(item => item.id !== taskId)
+  //     },
+  //     () => localStorage.setItem('TASKS', JSON.stringify(this.state.taskList))
+  //   );
+  // };
 
   handleNavClick = e => {
     e.preventDefault();
@@ -107,8 +96,6 @@ export default class App extends React.Component {
           {this.state.activeNavItem === NAV_MAIN ? (
             <MainTab
               onTaskEdit={this.handleEditTask}
-              taskList={this.state.taskList}
-              onTaskDelete={this.handleDeleteTask}
               taskForEdit={this.state.taskForEdit}
               formSate={this.state.formSate}
               onSaveData={this.handleSaveFormData}

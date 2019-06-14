@@ -1,12 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card } from '../card';
+import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { Card } from '../card';
 import ViewTaskModal from '../task/view_task';
 import Modal from '../modals/simple_modal';
+import * as actions from '../../store/action_creators';
 
-export default class MainList extends React.Component {
+class MainList extends React.Component {
+    static propTypes = {
+        taskList: PropTypes.array,
+        taskUpdate: PropTypes.func,
+        taskDelete: PropTypes.func,
+        onTaskEdit: PropTypes.func,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,15 +24,16 @@ export default class MainList extends React.Component {
         }
     }
 
-    static propTypes = {
-        data: PropTypes.array, // список задач длдя рендера
-        onTaskEdit: PropTypes.func,
-        onTaskDelete: PropTypes.func,
-    };
+    componentDidMount() {
+        let taskList = [];
+        try {
+            taskList = JSON.parse(localStorage.getItem('TASKS')) || [];
+        } catch {
+            console.error('Error localstorage upload data');
+        }
+        this.props.taskUpdate({ taskList });
+    }
 
-    static defaultTypes = {
-        data: []
-    };
 
     handleViewTask = (e) => {
         e.preventDefault();
@@ -39,7 +49,7 @@ export default class MainList extends React.Component {
         this.setState({
             modalFlag: false,
             taskId: null
-        })
+        });
     }
 
     handleEditTask = (e) => {
@@ -51,9 +61,10 @@ export default class MainList extends React.Component {
 
     handleDeleteTask = (e) => {
         e.persist(); // convert event React to event DOM
+        const { taskList } = this.props;
         const { currentTarget: target } = e;
         const taskId = target.getAttribute('data-id');
-        this.props.onTaskDelete(e, taskId);
+        this.props.taskDelete({ taskList, taskId });
     };
 
     handleClearList() {
@@ -113,11 +124,11 @@ export default class MainList extends React.Component {
                 <span className="text-secondary">Список задач пуст</span>
             </li>);
 
-        const list = this.props.data && this.props.data.length
-            ? this.props.data.map(this.renderOneTask)
+        const list = this.props.taskList && this.props.taskList.length
+            ? this.props.taskList.map(this.renderOneTask)
             : emptyList;
 
-        const btnClearAll = this.props.data && this.props.data.length ?
+        const btnClearAll = this.props.taskList && this.props.taskList.length ?
             <button
                 type="button"
                 className="btn btn-outline-danger"
@@ -129,7 +140,7 @@ export default class MainList extends React.Component {
             null;
 
         const filterElement = () => {
-            return this.props.data ? this.props.data.find(item => String(item.id) === this.state.taskId) : null;
+            return this.props.taskList ? this.props.taskList.find(item => String(item.id) === this.state.taskId) : null;
         }
         return (
             <Card>
@@ -154,3 +165,19 @@ export default class MainList extends React.Component {
 
     }
 }
+
+const mapStateToProps = store => {
+    return {
+        taskList: [...store.app.taskList]
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        taskUpdate: (payload) => dispatch(actions.updateTask(payload)),
+        taskDelete: (payload) => dispatch(actions.deleteTask(payload))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainList);
