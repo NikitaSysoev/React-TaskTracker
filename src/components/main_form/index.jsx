@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as actions from '../../store/action_creators';
 
 import { Card } from '../card';
 import { TextInput, TextArea, SelectInput, CheckboxInput, DateInput } from '../form';
 import { TASK_OPTIONS, FORM_ADD, TODO } from '../../lib/const';
 
-export default class MainForm extends React.Component {
+class MainForm extends React.Component {
     static propTypes = {
-        formSate: PropTypes.string, // состояние формы (редактровать или добавить таску)
-        taskForEdit: PropTypes.object, // номер таски, которую редактируют
-        onSaveData: PropTypes.func
+        taskForEdit: PropTypes.string, // номер таски, которую редактируют
+        formState: PropTypes.string,
+        taskList: PropTypes.array,
+        taskAdd: PropTypes.func,
+        setFormState: PropTypes.func,
+        taskEdit: PropTypes.func
     };
 
     constructor(props) {
@@ -21,15 +26,24 @@ export default class MainForm extends React.Component {
         }
     }
 
-    static getDerivedStateFromProps = (nextProps, state) => {
-        if (!state.propsFlag && nextProps.taskForEdit) {
-            return {
-                data: nextProps.taskForEdit,
-                propsFlag: true
-            }
+    // static getDerivedStateFromProps = (nextProps, state) => {
+    //     if (!state.propsFlag && nextProps.taskForEdit !== null && nextProps.taskList.length) {
+    //         const data = { ...nextProps.taskList.find(item => item.id === nextProps.taskForEdit) };
+    //         return {
+    //             data,
+    //             propsFlag: true
+    //         }
+    //     }
+    //     return null;
+    // };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.taskForEdit !== prevProps.taskForEdit) {
+            this.setState({
+                data: { ...this.props.taskList.find(item => item.id === this.props.taskForEdit) }
+            })
         }
-        return null;
-    };
+    }
 
 
     handleChange = (e) => {
@@ -43,22 +57,29 @@ export default class MainForm extends React.Component {
         }));
     }
 
-    handleClearForm = () => {
-        this.setState({ data: {} });
-    }
-
     handleResetData = () => {
-        this.props.onResetData();
-        this.setState({ data: {} });
+        if (this.props.formState === FORM_ADD) {
+            this.setState({ data: {} });
+        } else {
+            this.props.setFormState({ formState: FORM_ADD, taskId: null });
+            this.setState({ data: {} });
+        }
     }
 
     handleSaveData = (e) => {
         e.preventDefault();
         const { data } = this.state;
         const { taskStatus = TODO } = data;
-        if (this.props.onSaveData({ ...data, taskStatus, id: String(Date.now()) }) === true) {
-            this.setState({ data: {} });
+        const { taskList, taskForEdit } = this.props;
+        if (this.props.formState === FORM_ADD) {
+            const newItem = { ...data, taskStatus, id: String(Date.now()) };
+            this.props.taskAdd({ newItem, taskList });
+        } else {
+            const newItem = { ...data };
+            this.props.taskEdit({ newItem, taskList, taskForEdit });
+            this.props.setFormState({ formState: FORM_ADD, taskId: null })
         }
+        this.setState({ data: {} });
     }
 
     render() {
@@ -66,9 +87,9 @@ export default class MainForm extends React.Component {
             <Card>
                 <h4>
                     {
-                        this.props.formSate === FORM_ADD
+                        this.props.formState === FORM_ADD
                             ? "Add new task"
-                            : `Edit task ${this.props.taskForEdit.taskName || ""}`
+                            : `Edit task ${this.state.data.taskName || ""}`
                     }
                 </h4>
 
@@ -119,22 +140,26 @@ export default class MainForm extends React.Component {
                     <div className='col-sm-6'>
                         <button
                             type="submit"
-                            className={`btn ${this.props.formSate === FORM_ADD ? 'btn-primary' : 'btn-warning'}`}
+                            className={`btn ${this.props.formState === FORM_ADD ?
+                                'btn-primary' : 'btn-warning'}`}
                             onClick={this.handleSaveData}
                         >
                             {
-                                this.props.formSate === FORM_ADD ? "Add new task" : "Save changes"
+                                this.props.formState === FORM_ADD ?
+                                    "Add new task" : "Save changes"
                             }
                         </button>
                     </div>
                     <div className='col-sm-6'>
                         <button
                             type="submit"
-                            className={`btn ${this.props.formSate === FORM_ADD ? 'btn-secondary' : 'btn-danger'}`}
+                            className={`btn ${this.props.formState === FORM_ADD ?
+                                'btn-secondary' : 'btn-danger'}`}
                             onClick={this.handleResetData}
                         >
                             {
-                                this.props.formSate === FORM_ADD ? "Clear form" : "Cancel"
+                                this.props.formState === FORM_ADD ?
+                                    "Clear form" : "Cancel"
                             }
                         </button>
                     </div>
@@ -142,4 +167,22 @@ export default class MainForm extends React.Component {
             </Card>
         )
     }
-} 
+}
+
+const mapStateToProps = store => {
+    return {
+        taskForEdit: store.app.taskId,
+        formState: store.app.formState,
+        taskList: [...store.app.taskList]
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        taskAdd: payload => dispatch(actions.addTask(payload)),
+        taskEdit: payload => dispatch(actions.editTask(payload)),
+        setFormState: payload => dispatch(actions.setFormState(payload))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainForm);

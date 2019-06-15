@@ -1,6 +1,5 @@
 import React from 'react';
-// import { Route, HashRouter as Router } from 'react-router-dom';
-import { FORM_ADD, FORM_EDIT } from './lib/const';
+import { Route, Switch } from 'react-router-dom';
 import { NAV_ITEMS, NAV_MAIN } from './lib/nav_data';
 import Navigation from './components/navigation';
 
@@ -11,64 +10,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeNavItem: NAV_MAIN,
-      taskForEdit: null,
-      formSate: FORM_ADD // ["add", "edit"]
+      activeNavItem: NAV_MAIN
     };
   }
-
-  handleSaveFormData = data => {
-    let { taskList, formSate, taskForEdit } = this.state;
-    if (formSate === FORM_ADD) {
-      taskList = taskList.concat(data);
-    } else {
-      taskList = taskList.map(item => (item.id === taskForEdit.id ? data : item));
-    }
-    this.setState({
-      taskList,
-      taskForEdit: null,
-      formSate: FORM_ADD
-    });
-    localStorage.setItem('TASKS', JSON.stringify(taskList));
-    return true;
-  };
-
-  handleResetData = () => {
-    this.setState({
-      taskForEdit: null,
-      formSate: FORM_ADD
-    });
-  };
-
-  handleEditTask = (e, taskId) => {
-    const { taskList } = this.state;
-    const taskForEdit = taskList.find(item => item.id === taskId);
-    if (taskForEdit === this.state.taskForEdit || this.state.formSate === FORM_EDIT) {
-      this.handleResetData();
-      return false;
-    }
-    if (this.state.formSate === FORM_ADD) {
-      this.setState({
-        taskForEdit,
-        formSate: FORM_EDIT
-      });
-    }
-  };
-
-  handleClearList = () => {
-    this.setState({ taskList: [] });
-    localStorage.removeItem('TASKS');
-  };
-
-  // handleDeleteTask = (e, taskId) => {
-  //   const { taskList } = this.state;
-  //   this.setState(
-  //     {
-  //       taskList: taskList.filter(item => item.id !== taskId)
-  //     },
-  //     () => localStorage.setItem('TASKS', JSON.stringify(this.state.taskList))
-  //   );
-  // };
 
   handleNavClick = e => {
     e.preventDefault();
@@ -93,18 +37,12 @@ export default class App extends React.Component {
       <div className="container">
         <Navigation items={this.navHelper()} />
         <React.Suspense fallback={<div> Loading....</div>}>
-          {this.state.activeNavItem === NAV_MAIN ? (
-            <MainTab
-              onTaskEdit={this.handleEditTask}
-              taskForEdit={this.state.taskForEdit}
-              formSate={this.state.formSate}
-              onSaveData={this.handleSaveFormData}
-              onListClear={this.handleClearList}
-              onResetData={this.handleResetData}
-            />
-          ) : (
-            <Dnd taskList={this.state.taskList} />
-          )}
+          {/* <Switch>
+          <Route exact path="/" render={() => (<MainTab
+            />)} />
+          <Route exact path="/dnd" render={() => <Dnd />} />
+        </Switch> */}
+          {this.state.activeNavItem === NAV_MAIN ? <MainTab /> : <Dnd />}
         </React.Suspense>
       </div>
     );

@@ -1,9 +1,13 @@
 import * as ACT from './actions';
 
 export function editTask(payload) {
+  const taskList = payload.taskList.map(item =>
+    item.id === payload.taskForEdit ? payload.newItem : item
+  );
+  localStorage.setItem('TASKS', JSON.stringify(taskList));
   return {
     type: ACT.DATA_TASK_EDIT,
-    payload
+    payload: { taskList }
   };
 }
 
@@ -15,9 +19,11 @@ export function updateTask(payload) {
 }
 
 export function addTask(payload) {
+  const taskList = payload.taskList.concat(payload.newItem);
+  localStorage.setItem('TASKS', JSON.stringify(taskList));
   return {
     type: ACT.DATA_TASK_ADD,
-    payload
+    payload: { taskList }
   };
 }
 
@@ -30,14 +36,9 @@ export function deleteTask(payload) {
   };
 }
 
-export function stateFormAdd() {
+export function setFormState(payload) {
   return {
-    type: ACT.FORM_STATE_ADD
-  };
-}
-export function stateFormEdit(payload) {
-  return {
-    type: ACT.FORM_STATE_EDIT,
+    type: ACT.FORM_STATE_SET,
     payload
   };
 }

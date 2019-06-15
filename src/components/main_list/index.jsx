@@ -7,13 +7,16 @@ import { Card } from '../card';
 import ViewTaskModal from '../task/view_task';
 import Modal from '../modals/simple_modal';
 import * as actions from '../../store/action_creators';
+import { FORM_ADD, FORM_EDIT } from '../../lib/const';
 
 class MainList extends React.Component {
     static propTypes = {
         taskList: PropTypes.array,
         taskUpdate: PropTypes.func,
         taskDelete: PropTypes.func,
-        onTaskEdit: PropTypes.func,
+        setFormState: PropTypes.func,
+        taskForEdit: PropTypes.string, // номер таски, которую редактируют
+        formState: PropTypes.string,
     };
 
     constructor(props) {
@@ -56,7 +59,12 @@ class MainList extends React.Component {
         e.persist(); // convert event React to event DOM
         const { currentTarget: target } = e;
         const taskId = target.getAttribute('data-id');
-        this.props.onTaskEdit(e, taskId);
+        
+        this.props.setFormState({ formState: FORM_EDIT, taskId });
+        
+        if (this.props.formState === FORM_EDIT && taskId === this.props.taskForEdit){
+            this.props.setFormState({ formState: FORM_ADD, taskId: null })
+        }
     };
 
     handleDeleteTask = (e) => {
@@ -67,13 +75,14 @@ class MainList extends React.Component {
         this.props.taskDelete({ taskList, taskId });
     };
 
-    handleClearList() {
-        this.props.onListClear();
+    handleClearList = () => {
+        this.props.taskUpdate({ taskList: [] });
+        localStorage.removeItem('TASKS');
     }
 
     renderOneTask = (item) => {
         const { taskForEdit } = this.props;
-        const isActive = taskForEdit && taskForEdit.id === item.id ? 'active' : '';
+        const isActive = taskForEdit && taskForEdit === item.id ? 'active' : '';
         return (
             <li
                 key={item.id}
@@ -132,7 +141,7 @@ class MainList extends React.Component {
             <button
                 type="button"
                 className="btn btn-outline-danger"
-                onClick={this.handleClearList.bind(this)}
+                onClick={this.handleClearList}
                 style={{ marginTop: '10px' }}>
                 Clear List
             </button>
@@ -140,8 +149,11 @@ class MainList extends React.Component {
             null;
 
         const filterElement = () => {
-            return this.props.taskList ? this.props.taskList.find(item => String(item.id) === this.state.taskId) : null;
+            return this.props.taskList ?
+                this.props.taskList.find(item => String(item.id) === this.state.taskId)
+                : null;
         }
+
         return (
             <Card>
                 <h4>Список всех задач</h4>
@@ -154,7 +166,7 @@ class MainList extends React.Component {
                     btnClearAll
                 }
                 <Modal
-                    title="Some title"
+                    title="Task Info"
                     onCancelClick={this.handleCloseModal}
                     display={this.state.modalFlag}
                 >
@@ -168,6 +180,8 @@ class MainList extends React.Component {
 
 const mapStateToProps = store => {
     return {
+        taskForEdit: store.app.taskId,
+        formState: store.app.formState,
         taskList: [...store.app.taskList]
     }
 }
@@ -175,7 +189,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         taskUpdate: (payload) => dispatch(actions.updateTask(payload)),
-        taskDelete: (payload) => dispatch(actions.deleteTask(payload))
+        taskDelete: (payload) => dispatch(actions.deleteTask(payload)),
+        setFormState: payload => dispatch(actions.setFormState(payload))
     }
 }
 

@@ -5,10 +5,11 @@ export const NAV_ITEMS = [
     {
         title: 'Главная',
         name: NAV_MAIN,
-
+        link: '/'
     },
     {
         title: 'Drag & Drop',
         name: NAV_DND,
+        link: '/dnd'
     }
 ]
