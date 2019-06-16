@@ -41,7 +41,7 @@ class MainForm extends React.Component {
         if (this.props.taskForEdit !== prevProps.taskForEdit) {
             this.setState({
                 data: { ...this.props.taskList.find(item => item.id === this.props.taskForEdit) }
-            })
+            });
         }
     }
 

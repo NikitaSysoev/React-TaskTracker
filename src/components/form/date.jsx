@@ -2,10 +2,15 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
+import Calendar from '../calendar'
 
 const DateInput = (props) => {
     const { label, icon, placeholder, mandatory = false, helper, err } = props;
-    const handleView = () => console.log('x')
+
+    const [visibleCalendar, setVisibleCalendar] = React.useState(false);
+
+    const handleView = () => setVisibleCalendar(visibleCalendar => !visibleCalendar);
+
     const mandatoryStr = mandatory && <span className="text-muted">*</span>;
     return (
         <div className="form-group">
@@ -26,6 +31,9 @@ const DateInput = (props) => {
                     placeholder={placeholder || label}
                 />
             </div>
+            <Calendar
+                handleView={handleView}
+                display={visibleCalendar} />
             <small className={`${err && 'text-danger'} form-text text-muted`}>
                 {helper || 'Это поле обязательное для заполнения'}
             </small>
