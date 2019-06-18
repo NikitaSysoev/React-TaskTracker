@@ -35,6 +35,32 @@ const ViewCalendar = ({ display, handleView }) => {
         return text[currMonthCalendar] + ' ' + currYearCalendar;
     }
 
+    // const renderOneCalendarCell = () => {
+    //     if (!className && !dataFullDate && !dataDaymonth) {
+    //         return '<td>&nbsp;</td>';
+    //       }
+    //       return (
+    //         '<td onclick="handleClickCalendarCell(event)" ' +
+    //         className +
+    //         ' data-fulldate="' +
+    //         dataFullDate +
+    //         '" data-daymonth="' +
+    //         dataDaymonth +
+    //         '">' +
+    //         (cellText === null ? dataDaymonth : cellText) +
+    //         '</td>'
+    //       );
+    // }
+
+    // const renderCells = () => {
+    //     const firstDay = getFirstDayOfMonth(year, month);
+    //     return (
+    //      <tr>
+
+    //      </tr>
+    //     )
+    // }
+
     const handleChangePage = (e) => {
         const { currentTarget: target } = e;
         if (target.getAttribute('data-id') === 'nextButton') {
@@ -52,15 +78,6 @@ const ViewCalendar = ({ display, handleView }) => {
             }
             setCurrMonthCalendar(state => state - 1);
         }
-
-    }
-
-    const renderCells = () => {
-        return (
-         <tr>
-
-         </tr>
-        )
     }
 
     return (

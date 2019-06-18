@@ -5,6 +5,7 @@ import MainForm from '../components/main_form';
 
 const MainTab = (props) => {
     return (
+        <div className="container">
         <div className="row">
             <div className="col-sm-6">
                 <MainForm />
@@ -12,6 +13,7 @@ const MainTab = (props) => {
             <div className="col-sm-6">
                 <MainList />
             </div>
+        </div>
         </div>
     );
 }

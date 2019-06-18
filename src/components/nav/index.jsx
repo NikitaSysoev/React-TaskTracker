@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { NAV_ITEMS, NAV_MAIN } from '../../lib/nav_data';
+import { NAV_ITEMS } from '../../lib/nav_data';
 
 const isItemActive = (url, location) => {
 	let { pathname } = location;
 
-	if (pathname.charAt(pathname.length-1) === "/" && pathname.length > 1) {
+	if (pathname.charAt(pathname.length - 1) === "/" && pathname.length > 1) {
 		pathname = pathname.slice(0, -1);
 	}
 
@@ -20,7 +19,7 @@ const isItemActive = (url, location) => {
 
 
 const Navigation = (props) => {
-
+	
 	const renderNavItem = (item) => {
 		const {
 			title,
@@ -32,12 +31,13 @@ const Navigation = (props) => {
 
 		return (
 			<Link
-				to={ url }
+				to={url}
+				// style={{ color: 'black' }}
 				role="button"
-				key={ name }
-				className={ `nav-item nav-link ${ isActive ? "active" : "" }` }
+				key={name}
+				className={`nav-item nav-link ${isActive ? "active" : ""}`}
 			>
-				{ title }
+				{title}
 			</Link>
 		)
 	};

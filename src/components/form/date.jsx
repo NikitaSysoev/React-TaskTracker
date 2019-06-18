@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
@@ -7,9 +7,9 @@ import Calendar from '../calendar'
 const DateInput = (props) => {
     const { label, icon, placeholder, mandatory = false, helper, err } = props;
 
-    const [visibleCalendar, setVisibleCalendar] = React.useState(false);
+    const [visibleCalendar, setVisibleCalendar] = useState(false);
 
-    const handleView = () => setVisibleCalendar(visibleCalendar => !visibleCalendar);
+    const handleView = () => setVisibleCalendar(state => !state);
 
     const mandatoryStr = mandatory && <span className="text-muted">*</span>;
     return (
@@ -19,7 +19,11 @@ const DateInput = (props) => {
                 {mandatoryStr}
             </label>
             <div className="input-group">
-                <div className="input-group-prepend" onClick={handleView}>
+                <div
+                    className="input-group-prepend"
+                    onClick={handleView}
+                    style={{ cursor: 'pointer' }}
+                >
                     <span className="input-group-text">
                         <FontAwesomeIcon icon={icon || faCalendar} />
                     </span>

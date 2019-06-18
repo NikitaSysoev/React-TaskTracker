@@ -3,66 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTimes, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+
 import { Card } from '../card';
-import ViewTaskModal from '../task/view_task';
-import Modal from '../modals/simple_modal';
 import * as actions from '../../store/action_creators';
 import { FORM_ADD, FORM_EDIT } from '../../lib/const';
+import * as URL from '../../router/url';
 
 class MainList extends React.Component {
     static propTypes = {
         taskList: PropTypes.array,
-        taskUpdate: PropTypes.func,
         taskDelete: PropTypes.func,
         setFormState: PropTypes.func,
         taskForEdit: PropTypes.string, // номер таски, которую редактируют
         formState: PropTypes.string,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalFlag: false,
-            taskId: null
-        }
-    }
-
-    componentDidMount() {
-        let taskList = [];
-        try {
-            taskList = JSON.parse(localStorage.getItem('TASKS')) || [];
-        } catch {
-            console.error('Error localstorage upload data');
-        }
-        this.props.taskUpdate({ taskList });
-    }
-
-
-    handleViewTask = (e) => {
-        e.preventDefault();
-        const { target } = e;
-        const taskId = target.getAttribute('data-id');
-        this.setState({
-            taskId,
-            modalFlag: true
-        });
-    };
-
-    handleCloseModal = () => {
-        this.setState({
-            modalFlag: false,
-            taskId: null
-        });
-    }
-
     handleEditTask = (e) => {
         e.persist(); // convert event React to event DOM
         const { currentTarget: target } = e;
         const taskId = target.getAttribute('data-id');
-        
+
         this.props.setFormState({ formState: FORM_EDIT, taskId });
-        
-        if (this.props.formState === FORM_EDIT && taskId === this.props.taskForEdit){
+
+        if (this.props.formState === FORM_EDIT && taskId === this.props.taskForEdit) {
             this.props.setFormState({ formState: FORM_ADD, taskId: null })
         }
     };
@@ -92,14 +56,12 @@ class MainList extends React.Component {
                 {
                     item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
                 }
-                <a
-                    href={item.id}
-                    onClick={this.handleViewTask}
-                    data-id={item.id}
+                <Link
+                    to={`${URL.URL_TASK_FORM}/${item.id}`}
                     style={{ color: 'black' }}
                 >
                     {item.taskName}
-                </a>
+                </Link>
                 <br />
                 <span className="text-muted">
                     <small>
@@ -148,12 +110,6 @@ class MainList extends React.Component {
             :
             null;
 
-        const filterElement = () => {
-            return this.props.taskList ?
-                this.props.taskList.find(item => String(item.id) === this.state.taskId)
-                : null;
-        }
-
         return (
             <Card>
                 <h4>Список всех задач</h4>
@@ -165,14 +121,6 @@ class MainList extends React.Component {
                 {
                     btnClearAll
                 }
-                <Modal
-                    title="Task Info"
-                    onCancelClick={this.handleCloseModal}
-                    display={this.state.modalFlag}
-                >
-                    <ViewTaskModal
-                        data={filterElement()} />
-                </Modal>
             </Card>);
 
     }
@@ -188,7 +136,6 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        taskUpdate: (payload) => dispatch(actions.updateTask(payload)),
         taskDelete: (payload) => dispatch(actions.deleteTask(payload)),
         setFormState: payload => dispatch(actions.setFormState(payload))
     }

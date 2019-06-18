@@ -6,7 +6,7 @@ export const NAV_DND = "NAV_DND";
 
 export const NAV_ITEMS = [
 	{
-		title: "Главная",
+		title: "Home",
 		name: NAV_HOME,
 		url: URL.URL_HOME
 	},{

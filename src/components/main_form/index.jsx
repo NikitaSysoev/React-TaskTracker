@@ -26,17 +26,6 @@ class MainForm extends React.Component {
         }
     }
 
-    // static getDerivedStateFromProps = (nextProps, state) => {
-    //     if (!state.propsFlag && nextProps.taskForEdit !== null && nextProps.taskList.length) {
-    //         const data = { ...nextProps.taskList.find(item => item.id === nextProps.taskForEdit) };
-    //         return {
-    //             data,
-    //             propsFlag: true
-    //         }
-    //     }
-    //     return null;
-    // };
-
     componentDidUpdate(prevProps) {
         if (this.props.taskForEdit !== prevProps.taskForEdit) {
             this.setState({
