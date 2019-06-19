@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const TextInput = props => {
     const { name, onChange, value = '', label, placeholder, mandatory = false, helper, err } = props;
-    const mandatoryStr = mandatory && <span className="text-muted">*</span>;
+    const mandatoryStr = mandatory && <span className={err ? 'text-danger' : 'text-muted'}>*</span>;
     return (
         <div className="form-group">
             <label htmlFor={name} className={err ? 'text-danger' : null}>
@@ -16,8 +16,8 @@ const TextInput = props => {
                 value={value}
                 className={`${err && 'is-invalid'} form-control`}
                 placeholder={placeholder || label} />
-            <small className={`${err && 'text-danger'} form-text text-muted`}>
-                {helper}
+            <small className={`${err ? 'text-danger' : 'text-muted'} form-text`}>
+                {helper || 'Это поле обязательно для заполнения'}
             </small>
         </div>
 

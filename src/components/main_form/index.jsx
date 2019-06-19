@@ -38,7 +38,6 @@ class MainForm extends React.Component {
                 data: { ...prevState.data, ...this.state.data }
             });
         }
-
     }
 
     handleChange = (e) => {
@@ -64,8 +63,20 @@ class MainForm extends React.Component {
     handleSaveData = (e) => {
         e.preventDefault();
         const { data } = this.state;
-        const { taskStatus = TODO } = data;
+        const { taskStatus = TODO, taskDate, taskName } = data;
         const { taskList, taskForEdit } = this.props;
+
+        if (!taskDate || !taskName) {
+            this.setState(prevState => ({
+                err: {
+                    ...prevState.err,
+                    taskName: !!prevState.err.taskName ? '' : 'Это поле обязательно для заполнения',
+                    taskDate: !!prevState.err.taskDate ? '' : 'Это поле обязательно для заполнения'
+                }
+            }));
+            return false;
+        }
+
         if (this.props.formState === FORM_ADD) {
             const newItem = { ...data, taskStatus, id: String(Date.now()) };
             this.props.taskAdd({ newItem, taskList });
@@ -122,8 +133,8 @@ class MainForm extends React.Component {
                     label='Task date'
                     placeholder='Date'
                     onSelectDate={this.handleSelectDate}
-                    helper={this.state.err.taskName}
-                    err={!!this.state.err.taskName}
+                    helper={this.state.err.taskDate || 'Выберите дату'}
+                    err={!!this.state.err.taskDate}
                     mandatory
                 />
 

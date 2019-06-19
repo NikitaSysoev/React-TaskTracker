@@ -10,10 +10,10 @@ const DateInput = (props) => {
     const [visibleCalendar, setVisibleCalendar] = useState(false);
     const handleView = () => setVisibleCalendar(state => !state);
 
-    const mandatoryStr = mandatory && <span className="text-muted">*</span>;
+    const mandatoryStr = mandatory && <span className={err ? 'text-danger' : 'text-muted'}>*</span>;
     return (
         <div className="form-group">
-            <label>
+            <label className={err ?  'text-danger' : null}>
                 {label}
                 {mandatoryStr}
             </label>
@@ -32,7 +32,7 @@ const DateInput = (props) => {
                     type="text"
                     name={name}
                     value={value}
-                    className={'form-control'}
+                    className={`${err && 'is-invalid'} form-control`}
                     placeholder={placeholder || label}
                 />
             </div>
@@ -41,7 +41,7 @@ const DateInput = (props) => {
                 display={visibleCalendar}
                 onSelectDate={onSelectDate}
             />
-            <small className={`${err && 'text-danger'} form-text text-muted`}>
+            <small className={`${err ? 'text-danger' : 'text-muted'} form-text `}>
                 {helper || 'Это поле обязательное для заполнения'}
             </small>
         </div>
