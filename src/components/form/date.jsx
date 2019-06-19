@@ -10,16 +10,6 @@ const DateInput = (props) => {
     const [visibleCalendar, setVisibleCalendar] = useState(false);
     const handleView = () => setVisibleCalendar(state => !state);
 
-    // const handleSelectDate = (data) => {
-    //     // this.setState(prevState => ({
-    //     //     data: {
-    //     //         ...prevState,
-    //     //         taskDate: data
-    //     //     }
-    //     // }))
-    //     setDate(data);
-    // }
-
     const mandatoryStr = mandatory && <span className="text-muted">*</span>;
     return (
         <div className="form-group">
