@@ -26,14 +26,20 @@ class MainForm extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.taskForEdit !== prevProps.taskForEdit) {
             this.setState({
                 data: { ...this.props.taskList.find(item => item.id === this.props.taskForEdit) }
             });
         }
-    }
 
+        if (this.state.data.taskDate && this.state.data.taskDate !== prevState.data.taskDate) {
+            this.setState({
+                data: { ...prevState.data, ...this.state.data }
+            });
+        }
+
+    }
 
     handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -71,6 +77,15 @@ class MainForm extends React.Component {
         this.setState({ data: {} });
     }
 
+    handleSelectDate = (date) => {
+        this.setState(prevState => ({
+            data: {
+                ...prevState,
+                taskDate: date
+            }
+        }));
+    }
+
     render() {
         return (
             <Card>
@@ -102,8 +117,13 @@ class MainForm extends React.Component {
                 />
 
                 <DateInput
+                    value={this.state.data.taskDate || ''}
+                    name='taskDate'
                     label='Task date'
                     placeholder='Date'
+                    onSelectDate={this.handleSelectDate}
+                    helper={this.state.err.taskName}
+                    err={!!this.state.err.taskName}
                     mandatory
                 />
 

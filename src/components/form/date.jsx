@@ -5,11 +5,20 @@ import PropTypes from 'prop-types';
 import Calendar from '../calendar'
 
 const DateInput = (props) => {
-    const { label, icon, placeholder, mandatory = false, helper, err } = props;
+    const { name, label, icon, value = '', placeholder, onSelectDate, mandatory = false, helper, err } = props;
 
     const [visibleCalendar, setVisibleCalendar] = useState(false);
-
     const handleView = () => setVisibleCalendar(state => !state);
+
+    // const handleSelectDate = (data) => {
+    //     // this.setState(prevState => ({
+    //     //     data: {
+    //     //         ...prevState,
+    //     //         taskDate: data
+    //     //     }
+    //     // }))
+    //     setDate(data);
+    // }
 
     const mandatoryStr = mandatory && <span className="text-muted">*</span>;
     return (
@@ -31,13 +40,17 @@ const DateInput = (props) => {
                 <input
                     readOnly
                     type="text"
+                    name={name}
+                    value={value}
                     className={'form-control'}
                     placeholder={placeholder || label}
                 />
             </div>
             <Calendar
                 handleView={handleView}
-                display={visibleCalendar} />
+                display={visibleCalendar}
+                onSelectDate={onSelectDate}
+            />
             <small className={`${err && 'text-danger'} form-text text-muted`}>
                 {helper || 'Это поле обязательное для заполнения'}
             </small>
@@ -48,10 +61,12 @@ const DateInput = (props) => {
 export default DateInput;
 
 DateInput.propTypes = {
+    value: PropTypes.string,
     label: PropTypes.string.isRequired,
     icon: PropTypes.object,
     placeholder: PropTypes.string,
     manadatory: PropTypes.bool,
     helper: PropTypes.string,
     err: PropTypes.bool,
+    onSelectDate: PropTypes.func
 }

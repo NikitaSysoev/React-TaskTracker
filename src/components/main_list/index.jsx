@@ -136,6 +136,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        taskUpdate: payload => dispatch(actions.updateTask(payload)),
         taskDelete: (payload) => dispatch(actions.deleteTask(payload)),
         setFormState: payload => dispatch(actions.setFormState(payload))
     }
