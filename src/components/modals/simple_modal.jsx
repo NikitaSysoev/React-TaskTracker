@@ -12,17 +12,20 @@ const Modal = (props) => {
 		display = false,
 	} = props;
 	return display && (
-		<div id="modal1" className="modal" tabIndex="-1" role="dialog" style={{ display: "block" }}>
-			<div className="modal-dialog modal-lg" role="document">
+		<div className="modal" style={{ display: "block" }}>
+			<div className="modal-dialog modal-lg">
 				<div className="modal-content">
 					<div className="modal-header">
 						<h5 className="modal-title">{title}</h5>
-						<button onClick={handleCancel} type="button" className="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
+						<button
+							onClick={handleCancel}
+							type="button"
+							className="close"
+						>
+							<span>&times;</span>
 						</button>
 					</div>
-					<div id="modalContent" className="modal-body">
+					<div className="modal-body">
 						{
 							children
 						}
@@ -32,7 +35,6 @@ const Modal = (props) => {
 							onClick={handleCancel}
 							type="button"
 							className="btn btn-secondary"
-							data-dismiss="modal"
 						>
 							{cancelBtn}
 						</button>

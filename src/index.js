@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'connected-react-router';
+import Loader from 'react-loader-spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './micalendar.css';
@@ -14,11 +15,11 @@ const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={ history }>
-      <React.Suspense fallback={<div>Loading...</div>}>
+    <ConnectedRouter history={history}>
+      <React.Suspense fallback={<Loader type="Puff" color="#00BFFF" height="100" width="100" />}>
         <App>{theRoutes}</App>
       </React.Suspense>
-      </ConnectedRouter>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

@@ -101,7 +101,7 @@ class MainList extends React.Component {
 
         const list = this.props.taskList && this.props.taskList.length
             ? this.props.taskList.sort((a, b) => parseDate(a.taskDate) - parseDate(b.taskDate))
-            .map(this.renderOneTask)
+                .map(this.renderOneTask)
             : emptyList;
 
         const btnClearAll = this.props.taskList && this.props.taskList.length ?

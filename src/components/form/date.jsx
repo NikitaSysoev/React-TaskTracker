@@ -13,7 +13,7 @@ const DateInput = (props) => {
     const mandatoryStr = mandatory && <span className={err ? 'text-danger' : 'text-muted'}>*</span>;
     return (
         <div className="form-group">
-            <label className={err ?  'text-danger' : null}>
+            <label className={err ? 'text-danger' : null}>
                 {label}
                 {mandatoryStr}
             </label>
