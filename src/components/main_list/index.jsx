@@ -90,13 +90,18 @@ class MainList extends React.Component {
     };
 
     render() {
+        const parseDate = (date) => {
+            return Date.parse(date.split('.').reverse().join('-'));
+        }
+
         const emptyList = (
             <li className="list-group-item">
                 <span className="text-secondary">Список задач пуст</span>
             </li>);
 
         const list = this.props.taskList && this.props.taskList.length
-            ? this.props.taskList.map(this.renderOneTask)
+            ? this.props.taskList.sort((a, b) => parseDate(a.taskDate) - parseDate(b.taskDate))
+            .map(this.renderOneTask)
             : emptyList;
 
         const btnClearAll = this.props.taskList && this.props.taskList.length ?
