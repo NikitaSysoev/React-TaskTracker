@@ -26,6 +26,17 @@ class MainForm extends React.Component {
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log('prevstate', prevState.data)
+        console.log('nextprops', nextProps)
+        //     if (prevState.data.hasOwnProperty('taskDate') && nextProps.data.taskDate === prevState.data.taskDate) {
+        //       return {
+        //         data: {...prevState.data}
+        //       }
+        //    }
+        return null;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (this.props.taskForEdit !== prevProps.taskForEdit) {
             this.setState({

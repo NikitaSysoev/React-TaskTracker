@@ -54,7 +54,7 @@ class MainList extends React.Component {
                 style={{ position: "relative" }}
             >
                 {
-                    item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
+                    item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} color="red" />)
                 }
                 <Link
                     to={`${URL.URL_TASK_FORM}/${item.id}`}
@@ -68,7 +68,6 @@ class MainList extends React.Component {
                         {item.taskDate}
                     </small>
                 </span>
-
                 <span
                     data-id={item.id}
                     className="delete_ico"
@@ -83,9 +82,7 @@ class MainList extends React.Component {
                 >
                     <FontAwesomeIcon icon={faEdit} />
                 </span>
-
             </li>
-
         )
     };
 

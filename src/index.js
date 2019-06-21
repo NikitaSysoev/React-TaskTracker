@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import Loader from 'react-loader-spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './micalendar.css';
 import App from './App';
+import Spinner from './components/spinner';
 import * as serviceWorker from './serviceWorker';
 import configureStore, { history } from './store/configure_store';
 import theRoutes from './router/routes';
@@ -16,7 +16,7 @@ const store = configureStore();
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <React.Suspense fallback={<Loader type="Puff" color="#00BFFF" height="100" width="100" />}>
+      <React.Suspense fallback={<Spinner />}>
         <App>{theRoutes}</App>
       </React.Suspense>
     </ConnectedRouter>

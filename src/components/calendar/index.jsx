@@ -64,7 +64,7 @@ const ViewCalendar = ({ display, handleView, onSelectDate }) => {
             arrayPrevDays.push(String(i));
         }
 
-        const arrayCurrDays = (new Array(maxDaysInCurrentMonth)).fill(1).map((a, i) => i + 1);
+        const arrayCurrDays = (new Array(maxDaysInCurrentMonth)).fill(1).map((a, i) => i + a);
         const halfArray = [...arrayPrevDays, ...arrayCurrDays];
 
         const arrayNextDays = [];

@@ -13,6 +13,7 @@ const CheckboxInput = props => {
                 onChange={typeof onChange === 'function' ? onChange : null}
                 type="checkbox"
                 className="form-check-input"
+                style={{ cursor: 'pointer' }}
             />
             <label className="form-check-label" >
                 <FontAwesomeIcon icon={faExclamationTriangle} /> {label}

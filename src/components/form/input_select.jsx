@@ -32,6 +32,7 @@ const SelectInput = props => {
                 value={value.toLocaleUpperCase()}
                 onChange={typeof onChange === 'function' ? onChange : null}
                 placeholder={placeholder}
+                style={{ cursor: 'pointer' }}
             >
                 {options.map(renderSelectOptions)}
             </select>
