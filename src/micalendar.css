@@ -143,6 +143,18 @@ code {
   cursor: pointer !important;
 }
 
+.urgent_ico {
+  position: absolute;
+  top: 15px;
+  right: 65px;
+}
+
+.urgent_dnd_ico {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
 .delete_ico {
   position: absolute;
   top: 15px;

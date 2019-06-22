@@ -51,11 +51,8 @@ class MainList extends React.Component {
             <li
                 key={item.id}
                 className={`list-group-item ${isActive}`}
-                style={{ position: "relative" }}
+                style={{ position: "relative", paddingRight: '90px' }}
             >
-                {
-                    item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} color="red" />)
-                }
                 <Link
                     to={`${URL.URL_TASK_FORM}/${item.id}`}
                     style={{ color: 'black' }}
@@ -67,7 +64,13 @@ class MainList extends React.Component {
                     <small>
                         {item.taskDate}
                     </small>
+
                 </span>
+                {
+                    item.taskUrgent && (<span className="urgent_ico">
+                        <FontAwesomeIcon icon={faExclamationTriangle} color="red" />
+                    </span>)
+                }
                 <span
                     data-id={item.id}
                     className="delete_ico"

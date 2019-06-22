@@ -33,13 +33,16 @@ const DnD = (props) => {
     }
 
     const handleDragStart = (e) => {
-        if (e.target.classList.contains('tag_a')) {
-            return false;
-        }
         const taskId = e.currentTarget.getElementsByTagName('a')[0].getAttribute('data-id');
+        setTaskId(taskId);
+    }
+
+    const handleDragEnd = (e) => {
+        const target = document.elementFromPoint(e.clientX, e.clientY);
+        const status = searchParentDiv(target);
         const newTaskList = taskList.map(item => {
             if (item.id === taskId) {
-                item.taskStatus = DONE;
+                item.taskStatus = status;
             }
             return item;
         });
@@ -47,16 +50,21 @@ const DnD = (props) => {
             type: ACT.DATA_TASK_UPDATE,
             payload: { taskList: newTaskList }
         });
+        localStorage.setItem('TASKS', JSON.stringify(taskList));
     }
+
+    const searchParentDiv = (element) => {
+        if (element.getAttribute('data-id') === TODO) return TODO;
+        if (element.getAttribute('data-id') === IN_PROGRESS) return IN_PROGRESS;
+        if (element.getAttribute('data-id') === DONE) return DONE;
+        if (element.parentNode === null) return '';
+        else return searchParentDiv(element.parentNode);
+    };
 
     const handleCloseModal = () => {
         setModalFlag(false);
         setTaskId(null);
     }
-
-    const emptyList = <li className="list-group-item">
-        <strong className="text-secondary">Список пуст</strong>
-    </li>;
 
     const filterElement = () => {
         return taskList.length ?
@@ -68,14 +76,13 @@ const DnD = (props) => {
         return (
             <li key={item.id}
                 className="list-group-item"
-                onClick={handleDragStart}
-                style={{ position: "relative" }}>
-                {
-                    item.taskUrgent && (<FontAwesomeIcon icon={faExclamationTriangle} />)
-                }
+                onDragEnd={handleDragEnd}
+                onDragStart={handleDragStart}
+                draggable
+                style={{ position: "relative", paddingRight: '36px' }}>
                 <a
                     href={item.id}
-                    className="tag_a"
+                    draggable='false'
                     style={{ color: 'black' }}
                     onClick={handleViewTask}
                     data-id={item.id}
@@ -89,15 +96,24 @@ const DnD = (props) => {
                     </small>
                 </span>
                 <br />
+                {
+                    item.taskUrgent && (<span className="urgent_dnd_ico">
+                        <FontAwesomeIcon icon={faExclamationTriangle} />
+                    </span>)
+                }
             </li>
         )
     };
+
+    const emptyList = <li className="list-group-item">
+        <strong className="text-secondary">Список пуст</strong>
+    </li>;
 
     return (
         <div className="container">
             <div className="row" style={{ marginTop: '20px' }}>
                 <div className="col-sm-4">
-                    <div className="card">
+                    <div className="card" data-id={TODO}>
                         <div className="card-body card-body-dnd">
                             <h3>К исполнению</h3>
                             <ul className="list-group">
@@ -109,7 +125,7 @@ const DnD = (props) => {
                     </div>
                 </div>
                 <div className="col-sm-4">
-                    <div className="card">
+                    <div className="card" data-id={IN_PROGRESS}>
                         <div className="card-body card-body-dnd">
                             <h3>В процессе</h3>
                             <ul className="list-group">
@@ -119,7 +135,7 @@ const DnD = (props) => {
                     </div>
                 </div>
                 <div className="col-sm-4">
-                    <div className="card">
+                    <div className="card" data-id={DONE}>
                         <div className="card-body card-body-dnd">
                             <h3>Готово</h3>
                             <ul className="list-group">
