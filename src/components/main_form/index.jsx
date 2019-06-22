@@ -26,17 +26,6 @@ class MainForm extends React.Component {
         }
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        console.log('prevstate', prevState.data)
-        console.log('nextprops', nextProps)
-        //     if (prevState.data.hasOwnProperty('taskDate') && nextProps.data.taskDate === prevState.data.taskDate) {
-        //       return {
-        //         data: {...prevState.data}
-        //       }
-        //    }
-        return null;
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.props.taskForEdit !== prevProps.taskForEdit) {
             this.setState({
@@ -48,6 +37,45 @@ class MainForm extends React.Component {
             this.setState({
                 data: { ...prevState.data, ...this.state.data }
             });
+        }
+    }
+
+    validateForm = () => {
+        const { taskDate, taskName } = this.state.data;
+        if (!taskName) {
+            this.setState(prevState => ({
+                err: {
+                    ...prevState.err,
+                    taskName: 'Это поле обязательно для заполнения',
+                }
+            }));
+        } else {
+            this.setState(prevState => ({
+                err: {
+                    ...prevState.err,
+                    taskName: ''
+                }
+            }));
+        }
+        if (!taskDate) {
+            this.setState(prevState => ({
+                err: {
+                    ...prevState.err,
+                    taskDate: 'Это поле обязательно для заполнения',
+                }
+            }));
+        } else {
+            this.setState(prevState => ({
+                err: {
+                    ...prevState.err,
+                    taskDate: ''
+                }
+            }));
+        }
+        if (!taskDate || !taskName) {
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -74,29 +102,22 @@ class MainForm extends React.Component {
     handleSaveData = (e) => {
         e.preventDefault();
         const { data } = this.state;
-        const { taskStatus = TODO, taskDate, taskName } = data;
+        const { taskStatus = TODO } = data;
         const { taskList, taskForEdit } = this.props;
 
-        if (!taskDate || !taskName) {
-            this.setState(prevState => ({
-                err: {
-                    ...prevState.err,
-                    taskName: !!prevState.err.taskName ? '' : 'Это поле обязательно для заполнения',
-                    taskDate: !!prevState.err.taskDate ? '' : 'Это поле обязательно для заполнения'
-                }
-            }));
-            return false;
-        }
+        const isValidForm = this.validateForm();
 
-        if (this.props.formState === FORM_ADD) {
-            const newItem = { ...data, taskStatus, id: String(Date.now()) };
-            this.props.taskAdd({ newItem, taskList });
-        } else {
-            const newItem = { ...data };
-            this.props.taskEdit({ newItem, taskList, taskForEdit });
-            this.props.setFormState({ formState: FORM_ADD, taskId: null })
+        if (isValidForm) {
+            if (this.props.formState === FORM_ADD) {
+                const newItem = { ...data, taskStatus, id: String(Date.now()) };
+                this.props.taskAdd({ newItem, taskList });
+            } else {
+                const newItem = { ...data };
+                this.props.taskEdit({ newItem, taskList, taskForEdit });
+                this.props.setFormState({ formState: FORM_ADD, taskId: null })
+            }
+            this.setState({ data: {} });
         }
-        this.setState({ data: {} });
     }
 
     handleSelectDate = (date) => {
