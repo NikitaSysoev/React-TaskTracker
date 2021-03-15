@@ -15,12 +15,12 @@ export default function configureStore(preloadedState) {
     preloadedState,
     compose(
       applyMiddleware(
-		routerMiddleware(history),	
-		thunk,
-		deleteMiddleware,
+        routerMiddleware(history),
+        thunk,
+        deleteMiddleware
         // ... other middlewares ...
-      ),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      )
+      // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
   );
 
